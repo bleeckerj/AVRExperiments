@@ -1,0 +1,428 @@
+GAS LISTING /var/tmp//ccssClrN.s 			page 1
+
+
+   1               		.file	"vt100.c"
+   2               		.arch atmega324p
+   3               	__SREG__ = 0x3f
+   4               	__SP_H__ = 0x3e
+   5               	__SP_L__ = 0x3d
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+   8               		.global __do_copy_data
+   9               		.global __do_clear_bss
+  10               		.stabs	"/Users/julian/Code/AVRExperiments/RockerSwitch/",100,0,2,.Ltext0
+  11               		.stabs	"vt100.c",100,0,2,.Ltext0
+  12               		.text
+  13               	.Ltext0:
+  14               		.stabs	"gcc2_compiled.",60,0,0,0
+  15               		.stabs	"int:t(0,1)=r(0,1);-32768;32767;",128,0,0,0
+  16               		.stabs	"char:t(0,2)=@s8;r(0,2);0;255;",128,0,0,0
+  17               		.stabs	"long int:t(0,3)=@s32;r(0,3);020000000000;017777777777;",128,0,0,0
+  18               		.stabs	"unsigned int:t(0,4)=r(0,4);0;0177777;",128,0,0,0
+  19               		.stabs	"long unsigned int:t(0,5)=@s32;r(0,5);0;037777777777;",128,0,0,0
+  20               		.stabs	"long long int:t(0,6)=@s64;r(0,6);01000000000000000000000;0777777777777777777777;",128,0,0,
+  21               		.stabs	"long long unsigned int:t(0,7)=@s64;r(0,7);0;01777777777777777777777;",128,0,0,0
+  22               		.stabs	"short int:t(0,8)=r(0,8);-32768;32767;",128,0,0,0
+  23               		.stabs	"short unsigned int:t(0,9)=r(0,9);0;0177777;",128,0,0,0
+  24               		.stabs	"signed char:t(0,10)=@s8;r(0,10);-128;127;",128,0,0,0
+  25               		.stabs	"unsigned char:t(0,11)=@s8;r(0,11);0;255;",128,0,0,0
+  26               		.stabs	"float:t(0,12)=r(0,1);4;0;",128,0,0,0
+  27               		.stabs	"double:t(0,13)=r(0,1);4;0;",128,0,0,0
+  28               		.stabs	"long double:t(0,14)=r(0,1);4;0;",128,0,0,0
+  29               		.stabs	"void:t(0,15)=(0,15)",128,0,0,0
+  30               		.stabs	"/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/avr/io.h",130,0,0,0
+  31               		.stabs	"/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/avr/sfr_defs.h",130,0,0,0
+  32               		.stabs	"/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/inttypes.h",130,0,0,0
+  33               		.stabs	"/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/stdint.h",130,0,0,0
+  34               		.stabs	"int8_t:t(4,1)=(0,10)",128,0,121,0
+  35               		.stabs	"uint8_t:t(4,2)=(0,11)",128,0,122,0
+  36               		.stabs	"int16_t:t(4,3)=(0,1)",128,0,123,0
+  37               		.stabs	"uint16_t:t(4,4)=(0,4)",128,0,124,0
+  38               		.stabs	"int32_t:t(4,5)=(0,3)",128,0,125,0
+  39               		.stabs	"uint32_t:t(4,6)=(0,5)",128,0,126,0
+  40               		.stabs	"int64_t:t(4,7)=(0,6)",128,0,128,0
+  41               		.stabs	"uint64_t:t(4,8)=(0,7)",128,0,129,0
+  42               		.stabs	"intptr_t:t(4,9)=(4,3)",128,0,142,0
+  43               		.stabs	"uintptr_t:t(4,10)=(4,4)",128,0,147,0
+  44               		.stabs	"int_least8_t:t(4,11)=(4,1)",128,0,159,0
+  45               		.stabs	"uint_least8_t:t(4,12)=(4,2)",128,0,164,0
+  46               		.stabs	"int_least16_t:t(4,13)=(4,3)",128,0,169,0
+  47               		.stabs	"uint_least16_t:t(4,14)=(4,4)",128,0,174,0
+  48               		.stabs	"int_least32_t:t(4,15)=(4,5)",128,0,179,0
+  49               		.stabs	"uint_least32_t:t(4,16)=(4,6)",128,0,184,0
+  50               		.stabs	"int_least64_t:t(4,17)=(4,7)",128,0,192,0
+  51               		.stabs	"uint_least64_t:t(4,18)=(4,8)",128,0,199,0
+  52               		.stabs	"int_fast8_t:t(4,19)=(4,1)",128,0,213,0
+  53               		.stabs	"uint_fast8_t:t(4,20)=(4,2)",128,0,218,0
+  54               		.stabs	"int_fast16_t:t(4,21)=(4,3)",128,0,223,0
+  55               		.stabs	"uint_fast16_t:t(4,22)=(4,4)",128,0,228,0
+  56               		.stabs	"int_fast32_t:t(4,23)=(4,5)",128,0,233,0
+  57               		.stabs	"uint_fast32_t:t(4,24)=(4,6)",128,0,238,0
+GAS LISTING /var/tmp//ccssClrN.s 			page 2
+
+
+  58               		.stabs	"int_fast64_t:t(4,25)=(4,7)",128,0,246,0
+  59               		.stabs	"uint_fast64_t:t(4,26)=(4,8)",128,0,253,0
+  60               		.stabs	"intmax_t:t(4,27)=(4,7)",128,0,273,0
+  61               		.stabs	"uintmax_t:t(4,28)=(4,8)",128,0,278,0
+  62               		.stabn	162,0,0,0
+  63               		.stabs	"int_farptr_t:t(3,1)=(4,5)",128,0,77,0
+  64               		.stabs	"uint_farptr_t:t(3,2)=(4,6)",128,0,81,0
+  65               		.stabn	162,0,0,0
+  66               		.stabn	162,0,0,0
+  67               		.stabn	162,0,0,0
+  68               		.stabs	"/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/avr/pgmspace.h",130,0,0,0
+  69               		.stabs	"/usr/local/bin/../lib/gcc/avr/4.1.1/include/stddef.h",130,0,0,0
+  70               		.stabs	"size_t:t(6,1)=(0,4)",128,0,214,0
+  71               		.stabn	162,0,0,0
+  72               		.stabs	"prog_void:t(5,1)=(5,2)=(5,2)",128,0,210,0
+  73               		.stabs	"prog_char:t(5,3)=(5,4)=@s8;r(5,4);0;255;",128,0,211,0
+  74               		.stabs	"prog_uchar:t(5,5)=(5,4)",128,0,212,0
+  75               		.stabs	"prog_int8_t:t(5,6)=(5,7)=(0,10)",128,0,214,0
+  76               		.stabs	"prog_uint8_t:t(5,8)=(5,4)",128,0,215,0
+  77               		.stabs	"prog_int16_t:t(5,9)=(5,10)=(0,1)",128,0,216,0
+  78               		.stabs	"prog_uint16_t:t(5,11)=(5,12)=(0,4)",128,0,217,0
+  79               		.stabs	"prog_int32_t:t(5,13)=(5,14)=(0,3)",128,0,218,0
+  80               		.stabs	"prog_uint32_t:t(5,15)=(5,16)=(0,5)",128,0,219,0
+  81               		.stabs	"prog_int64_t:t(5,17)=(5,18)=(0,6)",128,0,221,0
+  82               		.stabs	"prog_uint64_t:t(5,19)=(5,20)=(0,7)",128,0,222,0
+  83               		.stabn	162,0,0,0
+  84               		.stabs	"global.h",130,0,0,0
+  85               		.stabs	"avrlibtypes.h",130,0,0,0
+  86               		.stabs	"u08:t(8,1)=(0,11)",128,0,32,0
+  87               		.stabs	"s08:t(8,2)=(0,10)",128,0,33,0
+  88               		.stabs	"u16:t(8,3)=(0,9)",128,0,34,0
+  89               		.stabs	"s16:t(8,4)=(0,8)",128,0,35,0
+  90               		.stabs	"u32:t(8,5)=(0,5)",128,0,36,0
+  91               		.stabs	"s32:t(8,6)=(0,3)",128,0,37,0
+  92               		.stabs	"u64:t(8,7)=(0,7)",128,0,38,0
+  93               		.stabs	"s64:t(8,8)=(0,6)",128,0,39,0
+  94               		.stabs	"BOOL:t(8,9)=(0,11)",128,0,69,0
+  95               		.stabs	"BYTE:t(8,10)=(0,11)",128,0,70,0
+  96               		.stabs	"WORD:t(8,11)=(0,4)",128,0,71,0
+  97               		.stabs	"DWORD:t(8,12)=(0,5)",128,0,72,0
+  98               		.stabs	"UCHAR:t(8,13)=(0,11)",128,0,74,0
+  99               		.stabs	"UINT:t(8,14)=(0,4)",128,0,75,0
+ 100               		.stabs	"USHORT:t(8,15)=(0,9)",128,0,76,0
+ 101               		.stabs	"ULONG:t(8,16)=(0,5)",128,0,77,0
+ 102               		.stabs	"CHAR:t(8,17)=(0,2)",128,0,79,0
+ 103               		.stabs	"INT:t(8,18)=(0,1)",128,0,80,0
+ 104               		.stabs	"LONG:t(8,19)=(0,3)",128,0,81,0
+ 105               		.stabn	162,0,0,0
+ 106               		.stabn	162,0,0,0
+ 107               		.stabs	"vt100SetCursorPos:F(0,15)",36,0,68,vt100SetCursorPos
+ 108               		.stabs	"line:P(8,1)",64,0,67,24
+ 109               		.stabs	"col:P(8,1)",64,0,67,22
+ 110               	.global	vt100SetCursorPos
+ 111               		.type	vt100SetCursorPos, @function
+ 112               	vt100SetCursorPos:
+ 113               		.stabd	46,0,0
+   1:vt100.c       **** /*! \file vt100.c \brief VT100 terminal function library. */
+GAS LISTING /var/tmp//ccssClrN.s 			page 3
+
+
+   2:vt100.c       **** //*****************************************************************************
+   3:vt100.c       **** //
+   4:vt100.c       **** // File Name	: 'vt100.c'
+   5:vt100.c       **** // Title		: VT100 terminal function library
+   6:vt100.c       **** // Author		: Pascal Stang - Copyright (C) 2002
+   7:vt100.c       **** // Created		: 2002.08.27
+   8:vt100.c       **** // Revised		: 2002.08.27
+   9:vt100.c       **** // Version		: 0.1
+  10:vt100.c       **** // Target MCU	: Atmel AVR Series
+  11:vt100.c       **** // Editor Tabs	: 4
+  12:vt100.c       **** //
+  13:vt100.c       **** // NOTE: This code is currently below version 1.0, and therefore is considered
+  14:vt100.c       **** // to be lacking in some functionality or documentation, or may not be fully
+  15:vt100.c       **** // tested.  Nonetheless, you can expect most functions to work.
+  16:vt100.c       **** //
+  17:vt100.c       **** // This code is distributed under the GNU Public License
+  18:vt100.c       **** //		which can be found at http://www.gnu.org/licenses/gpl.txt
+  19:vt100.c       **** //
+  20:vt100.c       **** //*****************************************************************************
+  21:vt100.c       **** 
+  22:vt100.c       **** #ifndef WIN32
+  23:vt100.c       **** 	#include <avr/io.h>
+  24:vt100.c       **** 	#include <avr/signal.h>
+  25:vt100.c       **** 	#include <avr/interrupt.h>
+  26:vt100.c       **** 	#include <avr/pgmspace.h>
+  27:vt100.c       **** #endif
+  28:vt100.c       **** 
+  29:vt100.c       **** #include "global.h"
+  30:vt100.c       **** #include "rprintf.h"
+  31:vt100.c       **** #include "vt100.h"
+  32:vt100.c       **** 
+  33:vt100.c       **** // Program ROM constants
+  34:vt100.c       **** 
+  35:vt100.c       **** // Global variables
+  36:vt100.c       **** 
+  37:vt100.c       **** // Functions
+  38:vt100.c       **** void vt100Init(void)
+  39:vt100.c       **** {
+  40:vt100.c       **** 	// initializes terminal to "power-on" settings
+  41:vt100.c       **** 	// ESC c
+  42:vt100.c       **** 	rprintfProgStrM("\x1B\x63");
+  43:vt100.c       **** }
+  44:vt100.c       **** 
+  45:vt100.c       **** void vt100ClearScreen(void)
+  46:vt100.c       **** {
+  47:vt100.c       **** 	// ESC [ 2 J
+  48:vt100.c       **** 	rprintfProgStrM("\x1B[2J");
+  49:vt100.c       **** }
+  50:vt100.c       **** 
+  51:vt100.c       **** void vt100SetAttr(u08 attr)
+  52:vt100.c       **** {
+  53:vt100.c       **** 	// ESC [ Ps m
+  54:vt100.c       **** 	rprintf("\x1B[%dm",attr);
+  55:vt100.c       **** }
+  56:vt100.c       **** 
+  57:vt100.c       **** void vt100SetCursorMode(u08 visible)
+  58:vt100.c       **** {
+GAS LISTING /var/tmp//ccssClrN.s 			page 4
+
+
+  59:vt100.c       **** 	if(visible)
+  60:vt100.c       **** 		// ESC [ ? 25 h
+  61:vt100.c       **** 		rprintf("\x1B[?25h");
+  62:vt100.c       **** 	else
+  63:vt100.c       **** 		// ESC [ ? 25 l
+  64:vt100.c       **** 		rprintf("\x1B[?25l");
+  65:vt100.c       **** }
+  66:vt100.c       **** 
+  67:vt100.c       **** void vt100SetCursorPos(u08 line, u08 col)
+  68:vt100.c       **** {
+ 114               		.stabn	68,0,68,.LM0-vt100SetCursorPos
+ 115               	.LM0:
+ 116               	/* prologue: frame size=0 */
+ 117               	/* prologue end (size=0) */
+  69:vt100.c       **** 	// ESC [ Pl ; Pc H
+  70:vt100.c       **** 	rprintf("\x1B[%d;%dH",line,col);
+ 118               		.stabn	68,0,70,.LM1-vt100SetCursorPos
+ 119               	.LM1:
+ 120 0000 7727      		clr r23
+ 121 0002 7F93      		push r23
+ 122 0004 6F93      		push r22
+ 123 0006 9927      		clr r25
+ 124 0008 9F93      		push r25
+ 125 000a 8F93      		push r24
+ 126 000c 80E0      		ldi r24,lo8(__c.1476)
+ 127 000e 90E0      		ldi r25,hi8(__c.1476)
+ 128 0010 9F93      		push r25
+ 129 0012 8F93      		push r24
+ 130 0014 81E0      		ldi r24,lo8(1)
+ 131 0016 8F93      		push r24
+ 132 0018 0E94 0000 		call rprintf1RamRom
+ 133 001c 8DB7      		in r24,__SP_L__
+ 134 001e 9EB7      		in r25,__SP_H__
+ 135 0020 0796      		adiw r24,7
+ 136 0022 0FB6      		in __tmp_reg__,__SREG__
+ 137 0024 F894      		cli
+ 138 0026 9EBF      		out __SP_H__,r25
+ 139 0028 0FBE      		out __SREG__,__tmp_reg__
+ 140 002a 8DBF      		out __SP_L__,r24
+ 141               	/* epilogue: frame size=0 */
+ 142 002c 0895      		ret
+ 143               	/* epilogue end (size=1) */
+ 144               	/* function vt100SetCursorPos size 23 (22) */
+ 145               		.size	vt100SetCursorPos, .-vt100SetCursorPos
+ 146               	.Lscope0:
+ 147               		.stabs	"",36,0,0,.Lscope0-vt100SetCursorPos
+ 148               		.stabd	78,0,0
+ 149               		.stabs	"vt100SetCursorMode:F(0,15)",36,0,58,vt100SetCursorMode
+ 150               		.stabs	"visible:P(8,1)",64,0,57,24
+ 151               	.global	vt100SetCursorMode
+ 152               		.type	vt100SetCursorMode, @function
+ 153               	vt100SetCursorMode:
+ 154               		.stabd	46,0,0
+ 155               		.stabn	68,0,58,.LM2-vt100SetCursorMode
+ 156               	.LM2:
+ 157               	/* prologue: frame size=0 */
+ 158               	/* prologue end (size=0) */
+GAS LISTING /var/tmp//ccssClrN.s 			page 5
+
+
+ 159               		.stabn	68,0,59,.LM3-vt100SetCursorMode
+ 160               	.LM3:
+ 161 002e 8823      		tst r24
+ 162 0030 01F0      		breq .L4
+ 163               		.stabn	68,0,61,.LM4-vt100SetCursorMode
+ 164               	.LM4:
+ 165 0032 80E0      		ldi r24,lo8(__c.1468)
+ 166 0034 90E0      		ldi r25,hi8(__c.1468)
+ 167 0036 00C0      		rjmp .L8
+ 168               	.L4:
+ 169               		.stabn	68,0,64,.LM5-vt100SetCursorMode
+ 170               	.LM5:
+ 171 0038 80E0      		ldi r24,lo8(__c.1470)
+ 172 003a 90E0      		ldi r25,hi8(__c.1470)
+ 173               	.L8:
+ 174 003c 9F93      		push r25
+ 175 003e 8F93      		push r24
+ 176 0040 81E0      		ldi r24,lo8(1)
+ 177 0042 8F93      		push r24
+ 178 0044 0E94 0000 		call rprintf1RamRom
+ 179 0048 0F90      		pop __tmp_reg__
+ 180 004a 0F90      		pop __tmp_reg__
+ 181 004c 0F90      	 	pop __tmp_reg__
+ 182 004e 0895      		ret
+ 183               	/* epilogue: frame size=0 */
+ 184               	/* epilogue: noreturn */
+ 185               	/* epilogue end (size=0) */
+ 186               	/* function vt100SetCursorMode size 17 (17) */
+ 187               		.size	vt100SetCursorMode, .-vt100SetCursorMode
+ 188               	.Lscope1:
+ 189               		.stabs	"",36,0,0,.Lscope1-vt100SetCursorMode
+ 190               		.stabd	78,0,0
+ 191               		.stabs	"vt100SetAttr:F(0,15)",36,0,52,vt100SetAttr
+ 192               		.stabs	"attr:P(8,1)",64,0,51,24
+ 193               	.global	vt100SetAttr
+ 194               		.type	vt100SetAttr, @function
+ 195               	vt100SetAttr:
+ 196               		.stabd	46,0,0
+ 197               		.stabn	68,0,52,.LM6-vt100SetAttr
+ 198               	.LM6:
+ 199               	/* prologue: frame size=0 */
+ 200               	/* prologue end (size=0) */
+ 201               		.stabn	68,0,54,.LM7-vt100SetAttr
+ 202               	.LM7:
+ 203 0050 9927      		clr r25
+ 204 0052 9F93      		push r25
+ 205 0054 8F93      		push r24
+ 206 0056 80E0      		ldi r24,lo8(__c.1462)
+ 207 0058 90E0      		ldi r25,hi8(__c.1462)
+ 208 005a 9F93      		push r25
+ 209 005c 8F93      		push r24
+ 210 005e 81E0      		ldi r24,lo8(1)
+ 211 0060 8F93      		push r24
+ 212 0062 0E94 0000 		call rprintf1RamRom
+ 213 0066 0F90      		pop __tmp_reg__
+ 214 0068 0F90      		pop __tmp_reg__
+ 215 006a 0F90      		pop __tmp_reg__
+GAS LISTING /var/tmp//ccssClrN.s 			page 6
+
+
+ 216 006c 0F90      		pop __tmp_reg__
+ 217 006e 0F90      		pop __tmp_reg__
+ 218               	/* epilogue: frame size=0 */
+ 219 0070 0895      		ret
+ 220               	/* epilogue end (size=1) */
+ 221               	/* function vt100SetAttr size 17 (16) */
+ 222               		.size	vt100SetAttr, .-vt100SetAttr
+ 223               	.Lscope2:
+ 224               		.stabs	"",36,0,0,.Lscope2-vt100SetAttr
+ 225               		.stabd	78,0,0
+ 226               		.stabs	"vt100ClearScreen:F(0,15)",36,0,46,vt100ClearScreen
+ 227               	.global	vt100ClearScreen
+ 228               		.type	vt100ClearScreen, @function
+ 229               	vt100ClearScreen:
+ 230               		.stabd	46,0,0
+ 231               		.stabn	68,0,46,.LM8-vt100ClearScreen
+ 232               	.LM8:
+ 233               	/* prologue: frame size=0 */
+ 234               	/* prologue end (size=0) */
+ 235               		.stabn	68,0,48,.LM9-vt100ClearScreen
+ 236               	.LM9:
+ 237 0072 80E0      		ldi r24,lo8(__c.1457)
+ 238 0074 90E0      		ldi r25,hi8(__c.1457)
+ 239 0076 0E94 0000 		call rprintfProgStr
+ 240               	/* epilogue: frame size=0 */
+ 241 007a 0895      		ret
+ 242               	/* epilogue end (size=1) */
+ 243               	/* function vt100ClearScreen size 5 (4) */
+ 244               		.size	vt100ClearScreen, .-vt100ClearScreen
+ 245               	.Lscope3:
+ 246               		.stabs	"",36,0,0,.Lscope3-vt100ClearScreen
+ 247               		.stabd	78,0,0
+ 248               		.stabs	"vt100Init:F(0,15)",36,0,39,vt100Init
+ 249               	.global	vt100Init
+ 250               		.type	vt100Init, @function
+ 251               	vt100Init:
+ 252               		.stabd	46,0,0
+ 253               		.stabn	68,0,39,.LM10-vt100Init
+ 254               	.LM10:
+ 255               	/* prologue: frame size=0 */
+ 256               	/* prologue end (size=0) */
+ 257               		.stabn	68,0,42,.LM11-vt100Init
+ 258               	.LM11:
+ 259 007c 80E0      		ldi r24,lo8(__c.1452)
+ 260 007e 90E0      		ldi r25,hi8(__c.1452)
+ 261 0080 0E94 0000 		call rprintfProgStr
+ 262               	/* epilogue: frame size=0 */
+ 263 0084 0895      		ret
+ 264               	/* epilogue end (size=1) */
+ 265               	/* function vt100Init size 5 (4) */
+ 266               		.size	vt100Init, .-vt100Init
+ 267               	.Lscope4:
+ 268               		.stabs	"",36,0,0,.Lscope4-vt100Init
+ 269               		.stabd	78,0,0
+ 270               		.section	.progmem.data,"a",@progbits
+ 271               		.type	__c.1476, @object
+ 272               		.size	__c.1476, 9
+GAS LISTING /var/tmp//ccssClrN.s 			page 7
+
+
+ 273               	__c.1476:
+ 274 0000 1B5B 2564 		.string	"\033[%d;%dH"
+ 274      3B25 6448 
+ 274      00
+ 275               		.stabs	"__c:V(0,16)=ar(0,17)=r(0,17);0;0177777;;0;8;(0,2)",38,0,70,__c.1476
+ 276               		.type	__c.1470, @object
+ 277               		.size	__c.1470, 7
+ 278               	__c.1470:
+ 279 0009 1B5B 3F32 		.string	"\033[?25l"
+ 279      356C 00
+ 280               		.stabs	"__c:V(0,18)=ar(0,17);0;6;(0,2)",38,0,64,__c.1470
+ 281               		.type	__c.1468, @object
+ 282               		.size	__c.1468, 7
+ 283               	__c.1468:
+ 284 0010 1B5B 3F32 		.string	"\033[?25h"
+ 284      3568 00
+ 285               		.stabs	"__c:V(0,19)=ar(0,17);0;6;(0,2)",38,0,61,__c.1468
+ 286               		.type	__c.1462, @object
+ 287               		.size	__c.1462, 6
+ 288               	__c.1462:
+ 289 0017 1B5B 2564 		.string	"\033[%dm"
+ 289      6D00 
+ 290               		.stabs	"__c:V(0,20)=ar(0,17);0;5;(0,2)",38,0,54,__c.1462
+ 291               		.type	__c.1457, @object
+ 292               		.size	__c.1457, 5
+ 293               	__c.1457:
+ 294 001d 1B5B 324A 		.string	"\033[2J"
+ 294      00
+ 295               		.stabs	"__c:V(0,21)=ar(0,17);0;4;(0,2)",38,0,48,__c.1457
+ 296               		.type	__c.1452, @object
+ 297               		.size	__c.1452, 3
+ 298               	__c.1452:
+ 299 0022 1B63 00   		.string	"\033c"
+ 300               		.stabs	"__c:V(0,22)=ar(0,17);0;2;(0,2)",38,0,42,__c.1452
+ 301               		.text
+ 302               		.stabs	"",100,0,0,.Letext0
+ 303               	.Letext0:
+ 304               	/* File "vt100.c": code   67 = 0x0043 (  63), prologues   0, epilogues   4 */
+GAS LISTING /var/tmp//ccssClrN.s 			page 8
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 vt100.c
+/var/tmp//ccssClrN.s:3      *ABS*:0000003f __SREG__
+/var/tmp//ccssClrN.s:4      *ABS*:0000003e __SP_H__
+/var/tmp//ccssClrN.s:5      *ABS*:0000003d __SP_L__
+/var/tmp//ccssClrN.s:6      *ABS*:00000000 __tmp_reg__
+/var/tmp//ccssClrN.s:7      *ABS*:00000001 __zero_reg__
+/var/tmp//ccssClrN.s:112    .text:00000000 vt100SetCursorPos
+/var/tmp//ccssClrN.s:273    .progmem.data:00000000 __c.1476
+/var/tmp//ccssClrN.s:153    .text:0000002e vt100SetCursorMode
+/var/tmp//ccssClrN.s:283    .progmem.data:00000010 __c.1468
+/var/tmp//ccssClrN.s:278    .progmem.data:00000009 __c.1470
+/var/tmp//ccssClrN.s:195    .text:00000050 vt100SetAttr
+/var/tmp//ccssClrN.s:288    .progmem.data:00000017 __c.1462
+/var/tmp//ccssClrN.s:229    .text:00000072 vt100ClearScreen
+/var/tmp//ccssClrN.s:293    .progmem.data:0000001d __c.1457
+/var/tmp//ccssClrN.s:251    .text:0000007c vt100Init
+/var/tmp//ccssClrN.s:298    .progmem.data:00000022 __c.1452
+
+UNDEFINED SYMBOLS
+__do_copy_data
+__do_clear_bss
+rprintf1RamRom
+rprintfProgStr

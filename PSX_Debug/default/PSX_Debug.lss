@@ -1,0 +1,244 @@
+
+PSX_Debug.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         0000016a  00000000  00000000  00000054  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .debug_aranges 00000020  00000000  00000000  000001be  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  2 .debug_pubnames 00000025  00000000  00000000  000001de  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  3 .debug_info   000000c9  00000000  00000000  00000203  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  4 .debug_abbrev 00000067  00000000  00000000  000002cc  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_line   000000d3  00000000  00000000  00000333  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_frame  00000030  00000000  00000000  00000408  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_str    000000a7  00000000  00000000  00000438  2**0
+                  CONTENTS, READONLY, DEBUGGING
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__ctors_end>
+   4:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+   8:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+   c:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+  10:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+  14:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+  18:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+  1c:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+  20:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+  24:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+  28:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+  2c:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+  30:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+  34:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+  38:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+  3c:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+  40:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+  44:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+  48:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+  4c:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+  50:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+  54:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+  58:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+  5c:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+  60:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+  64:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+  68:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+  6c:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+  70:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+  74:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+  78:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+
+0000007c <__ctors_end>:
+  7c:	11 24       	eor	r1, r1
+  7e:	1f be       	out	0x3f, r1	; 63
+  80:	cf ef       	ldi	r28, 0xFF	; 255
+  82:	d8 e0       	ldi	r29, 0x08	; 8
+  84:	de bf       	out	0x3e, r29	; 62
+  86:	cd bf       	out	0x3d, r28	; 61
+
+00000088 <__do_copy_data>:
+  88:	11 e0       	ldi	r17, 0x01	; 1
+  8a:	a0 e0       	ldi	r26, 0x00	; 0
+  8c:	b1 e0       	ldi	r27, 0x01	; 1
+  8e:	ea e6       	ldi	r30, 0x6A	; 106
+  90:	f1 e0       	ldi	r31, 0x01	; 1
+  92:	02 c0       	rjmp	.+4      	; 0x98 <.do_copy_data_start>
+
+00000094 <.do_copy_data_loop>:
+  94:	05 90       	lpm	r0, Z+
+  96:	0d 92       	st	X+, r0
+
+00000098 <.do_copy_data_start>:
+  98:	a0 30       	cpi	r26, 0x00	; 0
+  9a:	b1 07       	cpc	r27, r17
+  9c:	d9 f7       	brne	.-10     	; 0x94 <.do_copy_data_loop>
+
+0000009e <__do_clear_bss>:
+  9e:	11 e0       	ldi	r17, 0x01	; 1
+  a0:	a0 e0       	ldi	r26, 0x00	; 0
+  a2:	b1 e0       	ldi	r27, 0x01	; 1
+  a4:	01 c0       	rjmp	.+2      	; 0xa8 <.do_clear_bss_start>
+
+000000a6 <.do_clear_bss_loop>:
+  a6:	1d 92       	st	X+, r1
+
+000000a8 <.do_clear_bss_start>:
+  a8:	a0 30       	cpi	r26, 0x00	; 0
+  aa:	b1 07       	cpc	r27, r17
+  ac:	e1 f7       	brne	.-8      	; 0xa6 <.do_clear_bss_loop>
+  ae:	0e 94 5d 00 	call	0xba	; 0xba <main>
+  b2:	0c 94 b3 00 	jmp	0x166	; 0x166 <_exit>
+
+000000b6 <__bad_interrupt>:
+  b6:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+000000ba <main>:
+	}
+   sei();
+}
+*/
+
+int main() {
+  ba:	df 93       	push	r29
+  bc:	cf 93       	push	r28
+  be:	00 d0       	rcall	.+0      	; 0xc0 <main+0x6>
+  c0:	00 d0       	rcall	.+0      	; 0xc2 <main+0x8>
+  c2:	cd b7       	in	r28, 0x3d	; 61
+  c4:	de b7       	in	r29, 0x3e	; 62
+   int i;
+   i=10;
+  c6:	8a e0       	ldi	r24, 0x0A	; 10
+  c8:	90 e0       	ldi	r25, 0x00	; 0
+  ca:	9c 83       	std	Y+4, r25	; 0x04
+  cc:	8b 83       	std	Y+3, r24	; 0x03
+     int u;
+  //DDRA = 0xFF; // output
+  //PORTA = 0xFF;
+  //sbi(PORTA, PA1);
+  //cbi(DDRB, PB4); // input
+  u=10;
+  ce:	8a e0       	ldi	r24, 0x0A	; 10
+  d0:	90 e0       	ldi	r25, 0x00	; 0
+  d2:	9a 83       	std	Y+2, r25	; 0x02
+  d4:	89 83       	std	Y+1, r24	; 0x01
+  // We want PCINT30 enabled so we know when the charger is connected
+  //  PCICR |= (1<<PCIE3); // enable pin change interrupt 3 for PCINT31..24. 
+  //  PCMSK3 |= 0xFF;//(1<<PCINT30); // enable PCINT30
+
+  // arb switch
+  PCICR |= (0<<PCIE3) | (0<<PCIE2) | (1<<PCIE1) | (0<<PCIE0);
+  d6:	a8 e6       	ldi	r26, 0x68	; 104
+  d8:	b0 e0       	ldi	r27, 0x00	; 0
+  da:	e8 e6       	ldi	r30, 0x68	; 104
+  dc:	f0 e0       	ldi	r31, 0x00	; 0
+  de:	80 81       	ld	r24, Z
+  e0:	82 60       	ori	r24, 0x02	; 2
+  e2:	8c 93       	st	X, r24
+
+  PCMSK1 |= (1<<PCINT12);
+  e4:	ac e6       	ldi	r26, 0x6C	; 108
+  e6:	b0 e0       	ldi	r27, 0x00	; 0
+  e8:	ec e6       	ldi	r30, 0x6C	; 108
+  ea:	f0 e0       	ldi	r31, 0x00	; 0
+  ec:	80 81       	ld	r24, Z
+  ee:	80 61       	ori	r24, 0x10	; 16
+  f0:	8c 93       	st	X, r24
+
+  //sei();
+   setup();
+  f2:	0e 94 81 00 	call	0x102	; 0x102 <setup>
+  while(1) {
+     i++;
+  f6:	8b 81       	ldd	r24, Y+3	; 0x03
+  f8:	9c 81       	ldd	r25, Y+4	; 0x04
+  fa:	01 96       	adiw	r24, 0x01	; 1
+  fc:	9c 83       	std	Y+4, r25	; 0x04
+  fe:	8b 83       	std	Y+3, r24	; 0x03
+ 100:	fa cf       	rjmp	.-12     	; 0xf6 <main+0x3c>
+
+00000102 <setup>:
+  }
+  return 0;
+}
+
+void setup() {
+ 102:	df 93       	push	r29
+ 104:	cf 93       	push	r28
+ 106:	00 d0       	rcall	.+0      	; 0x108 <setup+0x6>
+ 108:	cd b7       	in	r28, 0x3d	; 61
+ 10a:	de b7       	in	r29, 0x3e	; 62
+  int u;
+  DDRA = 0xFF; // output
+ 10c:	e1 e2       	ldi	r30, 0x21	; 33
+ 10e:	f0 e0       	ldi	r31, 0x00	; 0
+ 110:	8f ef       	ldi	r24, 0xFF	; 255
+ 112:	80 83       	st	Z, r24
+  PORTA = 0xFF;
+ 114:	e2 e2       	ldi	r30, 0x22	; 34
+ 116:	f0 e0       	ldi	r31, 0x00	; 0
+ 118:	8f ef       	ldi	r24, 0xFF	; 255
+ 11a:	80 83       	st	Z, r24
+  sbi(PORTA, PA1);
+ 11c:	a2 e2       	ldi	r26, 0x22	; 34
+ 11e:	b0 e0       	ldi	r27, 0x00	; 0
+ 120:	e2 e2       	ldi	r30, 0x22	; 34
+ 122:	f0 e0       	ldi	r31, 0x00	; 0
+ 124:	80 81       	ld	r24, Z
+ 126:	82 60       	ori	r24, 0x02	; 2
+ 128:	8c 93       	st	X, r24
+  cbi(DDRB, PB4); // input
+ 12a:	a4 e2       	ldi	r26, 0x24	; 36
+ 12c:	b0 e0       	ldi	r27, 0x00	; 0
+ 12e:	e4 e2       	ldi	r30, 0x24	; 36
+ 130:	f0 e0       	ldi	r31, 0x00	; 0
+ 132:	80 81       	ld	r24, Z
+ 134:	8f 7e       	andi	r24, 0xEF	; 239
+ 136:	8c 93       	st	X, r24
+  u=10;
+ 138:	8a e0       	ldi	r24, 0x0A	; 10
+ 13a:	90 e0       	ldi	r25, 0x00	; 0
+ 13c:	9a 83       	std	Y+2, r25	; 0x02
+ 13e:	89 83       	std	Y+1, r24	; 0x01
+  // We want PCINT30 enabled so we know when the charger is connected
+  //  PCICR |= (1<<PCIE3); // enable pin change interrupt 3 for PCINT31..24. 
+  //  PCMSK3 |= 0xFF;//(1<<PCINT30); // enable PCINT30
+
+  // arb switch
+  PCICR |= (0<<PCIE3) | (0<<PCIE2) | (1<<PCIE1) | (0<<PCIE0);
+ 140:	a8 e6       	ldi	r26, 0x68	; 104
+ 142:	b0 e0       	ldi	r27, 0x00	; 0
+ 144:	e8 e6       	ldi	r30, 0x68	; 104
+ 146:	f0 e0       	ldi	r31, 0x00	; 0
+ 148:	80 81       	ld	r24, Z
+ 14a:	82 60       	ori	r24, 0x02	; 2
+ 14c:	8c 93       	st	X, r24
+
+  PCMSK1 |= (1<<PCINT12);
+ 14e:	ac e6       	ldi	r26, 0x6C	; 108
+ 150:	b0 e0       	ldi	r27, 0x00	; 0
+ 152:	ec e6       	ldi	r30, 0x6C	; 108
+ 154:	f0 e0       	ldi	r31, 0x00	; 0
+ 156:	80 81       	ld	r24, Z
+ 158:	80 61       	ori	r24, 0x10	; 16
+ 15a:	8c 93       	st	X, r24
+
+  //sei();
+
+}
+ 15c:	0f 90       	pop	r0
+ 15e:	0f 90       	pop	r0
+ 160:	cf 91       	pop	r28
+ 162:	df 91       	pop	r29
+ 164:	08 95       	ret
+
+00000166 <_exit>:
+ 166:	f8 94       	cli
+
+00000168 <__stop_program>:
+ 168:	ff cf       	rjmp	.-2      	; 0x168 <__stop_program>

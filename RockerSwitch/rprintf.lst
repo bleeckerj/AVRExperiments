@@ -1,0 +1,1497 @@
+GAS LISTING /var/tmp//ccnENx6U.s 			page 1
+
+
+   1               		.file	"rprintf.c"
+   2               		.arch atmega324p
+   3               	__SREG__ = 0x3f
+   4               	__SP_H__ = 0x3e
+   5               	__SP_L__ = 0x3d
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+   8               		.global __do_copy_data
+   9               		.global __do_clear_bss
+  10               		.stabs	"/Users/julian/Code/AVRExperiments/RockerSwitch/",100,0,2,.Ltext0
+  11               		.stabs	"rprintf.c",100,0,2,.Ltext0
+  12               		.text
+  13               	.Ltext0:
+  14               		.stabs	"gcc2_compiled.",60,0,0,0
+  15               		.stabs	"int:t(0,1)=r(0,1);-32768;32767;",128,0,0,0
+  16               		.stabs	"char:t(0,2)=@s8;r(0,2);0;255;",128,0,0,0
+  17               		.stabs	"long int:t(0,3)=@s32;r(0,3);020000000000;017777777777;",128,0,0,0
+  18               		.stabs	"unsigned int:t(0,4)=r(0,4);0;0177777;",128,0,0,0
+  19               		.stabs	"long unsigned int:t(0,5)=@s32;r(0,5);0;037777777777;",128,0,0,0
+  20               		.stabs	"long long int:t(0,6)=@s64;r(0,6);01000000000000000000000;0777777777777777777777;",128,0,0,
+  21               		.stabs	"long long unsigned int:t(0,7)=@s64;r(0,7);0;01777777777777777777777;",128,0,0,0
+  22               		.stabs	"short int:t(0,8)=r(0,8);-32768;32767;",128,0,0,0
+  23               		.stabs	"short unsigned int:t(0,9)=r(0,9);0;0177777;",128,0,0,0
+  24               		.stabs	"signed char:t(0,10)=@s8;r(0,10);-128;127;",128,0,0,0
+  25               		.stabs	"unsigned char:t(0,11)=@s8;r(0,11);0;255;",128,0,0,0
+  26               		.stabs	"float:t(0,12)=r(0,1);4;0;",128,0,0,0
+  27               		.stabs	"double:t(0,13)=r(0,1);4;0;",128,0,0,0
+  28               		.stabs	"long double:t(0,14)=r(0,1);4;0;",128,0,0,0
+  29               		.stabs	"void:t(0,15)=(0,15)",128,0,0,0
+  30               		.stabs	"/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/avr/pgmspace.h",130,0,0,0
+  31               		.stabs	"/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/inttypes.h",130,0,0,0
+  32               		.stabs	"/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/stdint.h",130,0,0,0
+  33               		.stabs	"int8_t:t(3,1)=(0,10)",128,0,121,0
+  34               		.stabs	"uint8_t:t(3,2)=(0,11)",128,0,122,0
+  35               		.stabs	"int16_t:t(3,3)=(0,1)",128,0,123,0
+  36               		.stabs	"uint16_t:t(3,4)=(0,4)",128,0,124,0
+  37               		.stabs	"int32_t:t(3,5)=(0,3)",128,0,125,0
+  38               		.stabs	"uint32_t:t(3,6)=(0,5)",128,0,126,0
+  39               		.stabs	"int64_t:t(3,7)=(0,6)",128,0,128,0
+  40               		.stabs	"uint64_t:t(3,8)=(0,7)",128,0,129,0
+  41               		.stabs	"intptr_t:t(3,9)=(3,3)",128,0,142,0
+  42               		.stabs	"uintptr_t:t(3,10)=(3,4)",128,0,147,0
+  43               		.stabs	"int_least8_t:t(3,11)=(3,1)",128,0,159,0
+  44               		.stabs	"uint_least8_t:t(3,12)=(3,2)",128,0,164,0
+  45               		.stabs	"int_least16_t:t(3,13)=(3,3)",128,0,169,0
+  46               		.stabs	"uint_least16_t:t(3,14)=(3,4)",128,0,174,0
+  47               		.stabs	"int_least32_t:t(3,15)=(3,5)",128,0,179,0
+  48               		.stabs	"uint_least32_t:t(3,16)=(3,6)",128,0,184,0
+  49               		.stabs	"int_least64_t:t(3,17)=(3,7)",128,0,192,0
+  50               		.stabs	"uint_least64_t:t(3,18)=(3,8)",128,0,199,0
+  51               		.stabs	"int_fast8_t:t(3,19)=(3,1)",128,0,213,0
+  52               		.stabs	"uint_fast8_t:t(3,20)=(3,2)",128,0,218,0
+  53               		.stabs	"int_fast16_t:t(3,21)=(3,3)",128,0,223,0
+  54               		.stabs	"uint_fast16_t:t(3,22)=(3,4)",128,0,228,0
+  55               		.stabs	"int_fast32_t:t(3,23)=(3,5)",128,0,233,0
+  56               		.stabs	"uint_fast32_t:t(3,24)=(3,6)",128,0,238,0
+  57               		.stabs	"int_fast64_t:t(3,25)=(3,7)",128,0,246,0
+GAS LISTING /var/tmp//ccnENx6U.s 			page 2
+
+
+  58               		.stabs	"uint_fast64_t:t(3,26)=(3,8)",128,0,253,0
+  59               		.stabs	"intmax_t:t(3,27)=(3,7)",128,0,273,0
+  60               		.stabs	"uintmax_t:t(3,28)=(3,8)",128,0,278,0
+  61               		.stabn	162,0,0,0
+  62               		.stabs	"int_farptr_t:t(2,1)=(3,5)",128,0,77,0
+  63               		.stabs	"uint_farptr_t:t(2,2)=(3,6)",128,0,81,0
+  64               		.stabn	162,0,0,0
+  65               		.stabs	"/usr/local/bin/../lib/gcc/avr/4.1.1/include/stddef.h",130,0,0,0
+  66               		.stabs	"size_t:t(4,1)=(0,4)",128,0,214,0
+  67               		.stabn	162,0,0,0
+  68               		.stabs	"prog_void:t(1,1)=(1,2)=(1,2)",128,0,210,0
+  69               		.stabs	"prog_char:t(1,3)=(1,4)=@s8;r(1,4);0;255;",128,0,211,0
+  70               		.stabs	"prog_uchar:t(1,5)=(1,4)",128,0,212,0
+  71               		.stabs	"prog_int8_t:t(1,6)=(1,7)=(0,10)",128,0,214,0
+  72               		.stabs	"prog_uint8_t:t(1,8)=(1,4)",128,0,215,0
+  73               		.stabs	"prog_int16_t:t(1,9)=(1,10)=(0,1)",128,0,216,0
+  74               		.stabs	"prog_uint16_t:t(1,11)=(1,12)=(0,4)",128,0,217,0
+  75               		.stabs	"prog_int32_t:t(1,13)=(1,14)=(0,3)",128,0,218,0
+  76               		.stabs	"prog_uint32_t:t(1,15)=(1,16)=(0,5)",128,0,219,0
+  77               		.stabs	"prog_int64_t:t(1,17)=(1,18)=(0,6)",128,0,221,0
+  78               		.stabs	"prog_uint64_t:t(1,19)=(1,20)=(0,7)",128,0,222,0
+  79               		.stabn	162,0,0,0
+  80               		.stabs	"/usr/local/bin/../lib/gcc/avr/4.1.1/include/stdarg.h",130,0,0,0
+  81               		.stabs	"__gnuc_va_list:t(5,1)=(5,2)=*(0,15)",128,0,43,0
+  82               		.stabs	"va_list:t(5,3)=(5,1)",128,0,105,0
+  83               		.stabn	162,0,0,0
+  84               		.stabs	"global.h",130,0,0,0
+  85               		.stabs	"avrlibtypes.h",130,0,0,0
+  86               		.stabs	"u08:t(7,1)=(0,11)",128,0,32,0
+  87               		.stabs	"s08:t(7,2)=(0,10)",128,0,33,0
+  88               		.stabs	"u16:t(7,3)=(0,9)",128,0,34,0
+  89               		.stabs	"s16:t(7,4)=(0,8)",128,0,35,0
+  90               		.stabs	"u32:t(7,5)=(0,5)",128,0,36,0
+  91               		.stabs	"s32:t(7,6)=(0,3)",128,0,37,0
+  92               		.stabs	"u64:t(7,7)=(0,7)",128,0,38,0
+  93               		.stabs	"s64:t(7,8)=(0,6)",128,0,39,0
+  94               		.stabs	"BOOL:t(7,9)=(0,11)",128,0,69,0
+  95               		.stabs	"BYTE:t(7,10)=(0,11)",128,0,70,0
+  96               		.stabs	"WORD:t(7,11)=(0,4)",128,0,71,0
+  97               		.stabs	"DWORD:t(7,12)=(0,5)",128,0,72,0
+  98               		.stabs	"UCHAR:t(7,13)=(0,11)",128,0,74,0
+  99               		.stabs	"UINT:t(7,14)=(0,4)",128,0,75,0
+ 100               		.stabs	"USHORT:t(7,15)=(0,9)",128,0,76,0
+ 101               		.stabs	"ULONG:t(7,16)=(0,5)",128,0,77,0
+ 102               		.stabs	"CHAR:t(7,17)=(0,2)",128,0,79,0
+ 103               		.stabs	"INT:t(7,18)=(0,1)",128,0,80,0
+ 104               		.stabs	"LONG:t(7,19)=(0,3)",128,0,81,0
+ 105               		.stabn	162,0,0,0
+ 106               		.stabn	162,0,0,0
+ 107               		.stabs	"rprintfInit:F(0,15)",36,0,54,rprintfInit
+ 108               		.stabs	"putchar_func:P(0,16)=*(0,17)=f(0,15)",64,0,53,24
+ 109               	.global	rprintfInit
+ 110               		.type	rprintfInit, @function
+ 111               	rprintfInit:
+ 112               		.stabd	46,0,0
+   1:rprintf.c     **** /*! \file rprintf.c \brief printf routine and associated routines. */
+   2:rprintf.c     **** //*****************************************************************************
+GAS LISTING /var/tmp//ccnENx6U.s 			page 3
+
+
+   3:rprintf.c     **** //
+   4:rprintf.c     **** // File Name	: 'rprintf.c'
+   5:rprintf.c     **** // Title		: printf routine and associated routines
+   6:rprintf.c     **** // Author		: Pascal Stang - Copyright (C) 2000-2002
+   7:rprintf.c     **** // Created		: 2000.12.26
+   8:rprintf.c     **** // Revised		: 2003.5.1
+   9:rprintf.c     **** // Version		: 1.0
+  10:rprintf.c     **** // Target MCU	: Atmel AVR series and other targets
+  11:rprintf.c     **** // Editor Tabs	: 4
+  12:rprintf.c     **** //
+  13:rprintf.c     **** // NOTE: This code is currently below version 1.0, and therefore is considered
+  14:rprintf.c     **** // to be lacking in some functionality or documentation, or may not be fully
+  15:rprintf.c     **** // tested.  Nonetheless, you can expect most functions to work.
+  16:rprintf.c     **** //
+  17:rprintf.c     **** // This code is distributed under the GNU Public License
+  18:rprintf.c     **** //		which can be found at http://www.gnu.org/licenses/gpl.txt
+  19:rprintf.c     **** //
+  20:rprintf.c     **** //*****************************************************************************
+  21:rprintf.c     **** 
+  22:rprintf.c     **** #include <avr/pgmspace.h>
+  23:rprintf.c     **** //#include <string-avr.h>
+  24:rprintf.c     **** //#include <stdlib.h>
+  25:rprintf.c     **** #include <stdarg.h>
+  26:rprintf.c     **** #include "global.h"
+  27:rprintf.c     **** #include "rprintf.h"
+  28:rprintf.c     **** 
+  29:rprintf.c     **** #ifndef TRUE
+  30:rprintf.c     **** 	#define TRUE	-1
+  31:rprintf.c     **** 	#define FALSE	0
+  32:rprintf.c     **** #endif
+  33:rprintf.c     **** 
+  34:rprintf.c     **** #define INF     32766	// maximum field size to print
+  35:rprintf.c     **** #define READMEMBYTE(a,char_ptr)	((a)?(pgm_read_byte(char_ptr)):(*char_ptr))
+  36:rprintf.c     **** 
+  37:rprintf.c     **** #ifdef RPRINTF_COMPLEX
+  38:rprintf.c     **** 	static unsigned char buf[128];
+  39:rprintf.c     **** #endif
+  40:rprintf.c     **** 
+  41:rprintf.c     **** // use this to store hex conversion in RAM
+  42:rprintf.c     **** //static char HexChars[] = "0123456789ABCDEF";
+  43:rprintf.c     **** // use this to store hex conversion in program memory
+  44:rprintf.c     **** //static prog_char HexChars[] = "0123456789ABCDEF";
+  45:rprintf.c     **** static char __attribute__ ((progmem)) HexChars[] = "0123456789ABCDEF";
+  46:rprintf.c     **** 
+  47:rprintf.c     **** // function pointer to single character output routine
+  48:rprintf.c     **** static void (*rputchar)(unsigned char c);
+  49:rprintf.c     **** 
+  50:rprintf.c     **** // *** rprintf initialization ***
+  51:rprintf.c     **** // you must call this function once and supply the character output
+  52:rprintf.c     **** // routine before using other functions in this library
+  53:rprintf.c     **** void rprintfInit(void (*putchar_func)(unsigned char c))
+  54:rprintf.c     **** {
+ 113               		.stabn	68,0,54,.LM0-rprintfInit
+ 114               	.LM0:
+ 115               	/* prologue: frame size=0 */
+ 116               	/* prologue end (size=0) */
+  55:rprintf.c     **** 	rputchar = putchar_func;
+GAS LISTING /var/tmp//ccnENx6U.s 			page 4
+
+
+ 117               		.stabn	68,0,55,.LM1-rprintfInit
+ 118               	.LM1:
+ 119 0000 9093 0000 		sts (rputchar)+1,r25
+ 120 0004 8093 0000 		sts rputchar,r24
+ 121               	/* epilogue: frame size=0 */
+ 122 0008 0895      		ret
+ 123               	/* epilogue end (size=1) */
+ 124               	/* function rprintfInit size 5 (4) */
+ 125               		.size	rprintfInit, .-rprintfInit
+ 126               	.Lscope0:
+ 127               		.stabs	"",36,0,0,.Lscope0-rprintfInit
+ 128               		.stabd	78,0,0
+ 129               		.stabs	"rprintfChar:F(0,15)",36,0,61,rprintfChar
+ 130               		.stabs	"c:P(0,11)",64,0,60,24
+ 131               	.global	rprintfChar
+ 132               		.type	rprintfChar, @function
+ 133               	rprintfChar:
+ 134               		.stabd	46,0,0
+  56:rprintf.c     **** }
+  57:rprintf.c     **** 
+  58:rprintf.c     **** // *** rprintfChar ***
+  59:rprintf.c     **** // send a character/byte to the current output device
+  60:rprintf.c     **** inline void rprintfChar(unsigned char c)
+  61:rprintf.c     **** {
+ 135               		.stabn	68,0,61,.LM2-rprintfChar
+ 136               	.LM2:
+ 137               	/* prologue: frame size=0 */
+ 138               	/* prologue end (size=0) */
+  62:rprintf.c     **** 	// send character
+  63:rprintf.c     **** 	rputchar(c);
+ 139               		.stabn	68,0,63,.LM3-rprintfChar
+ 140               	.LM3:
+ 141 000a E091 0000 		lds r30,rputchar
+ 142 000e F091 0000 		lds r31,(rputchar)+1
+ 143 0012 0995      		icall
+ 144               	/* epilogue: frame size=0 */
+ 145 0014 0895      		ret
+ 146               	/* epilogue end (size=1) */
+ 147               	/* function rprintfChar size 6 (5) */
+ 148               		.size	rprintfChar, .-rprintfChar
+ 149               	.Lscope1:
+ 150               		.stabs	"",36,0,0,.Lscope1-rprintfChar
+ 151               		.stabd	78,0,0
+ 152               		.stabs	"rprintfStr:F(0,15)",36,0,69,rprintfStr
+ 153               		.stabs	"str:P(0,18)=*(0,2)",64,0,68,28
+ 154               	.global	rprintfStr
+ 155               		.type	rprintfStr, @function
+ 156               	rprintfStr:
+ 157               		.stabd	46,0,0
+  64:rprintf.c     **** }
+  65:rprintf.c     **** 
+  66:rprintf.c     **** // *** rprintfStr ***
+  67:rprintf.c     **** // prints a null-terminated string stored in RAM
+  68:rprintf.c     **** void rprintfStr(char str[])
+  69:rprintf.c     **** {
+ 158               		.stabn	68,0,69,.LM4-rprintfStr
+ 159               	.LM4:
+GAS LISTING /var/tmp//ccnENx6U.s 			page 5
+
+
+ 160               	/* prologue: frame size=0 */
+ 161 0016 CF93      		push r28
+ 162 0018 DF93      		push r29
+ 163               	/* prologue end (size=2) */
+ 164 001a EC01      		movw r28,r24
+  70:rprintf.c     **** 	// send a string stored in RAM
+  71:rprintf.c     **** 	// check to make sure we have a good pointer
+  72:rprintf.c     **** 	if (!str) return;
+ 165               		.stabn	68,0,72,.LM5-rprintfStr
+ 166               	.LM5:
+ 167 001c 892B      		or r24,r25
+ 168 001e 01F4      		brne .L10
+ 169 0020 00C0      		rjmp .L9
+ 170               	.L8:
+  73:rprintf.c     **** 
+  74:rprintf.c     **** 	// print the string until a null-terminator
+  75:rprintf.c     **** 	while (*str)
+  76:rprintf.c     **** 		rprintfChar(*str++);
+ 171               		.stabn	68,0,76,.LM6-rprintfStr
+ 172               	.LM6:
+ 173 0022 2196      		adiw r28,1
+ 174 0024 0E94 0000 		call rprintfChar
+ 175               	.L10:
+ 176               		.stabn	68,0,75,.LM7-rprintfStr
+ 177               	.LM7:
+ 178 0028 8881      		ld r24,Y
+ 179 002a 8823      		tst r24
+ 180 002c 01F4      		brne .L8
+ 181               	.L9:
+ 182               	/* epilogue: frame size=0 */
+ 183 002e DF91      		pop r29
+ 184 0030 CF91      		pop r28
+ 185 0032 0895      		ret
+ 186               	/* epilogue end (size=3) */
+ 187               	/* function rprintfStr size 15 (10) */
+ 188               		.size	rprintfStr, .-rprintfStr
+ 189               	.Lscope2:
+ 190               		.stabs	"",36,0,0,.Lscope2-rprintfStr
+ 191               		.stabd	78,0,0
+ 192               		.stabs	"rprintfStrLen:F(0,15)",36,0,84,rprintfStrLen
+ 193               		.stabs	"str:P(0,18)",64,0,83,24
+ 194               		.stabs	"start:P(0,4)",64,0,83,22
+ 195               		.stabs	"len:P(0,4)",64,0,83,14
+ 196               	.global	rprintfStrLen
+ 197               		.type	rprintfStrLen, @function
+ 198               	rprintfStrLen:
+ 199               		.stabd	46,0,0
+  77:rprintf.c     **** }
+  78:rprintf.c     **** 
+  79:rprintf.c     **** // *** rprintfStrLen ***
+  80:rprintf.c     **** // prints a section of a string stored in RAM
+  81:rprintf.c     **** // begins printing at position indicated by <start>
+  82:rprintf.c     **** // prints number of characters indicated by <len>
+  83:rprintf.c     **** void rprintfStrLen(char str[], unsigned int start, unsigned int len)
+  84:rprintf.c     **** {
+ 200               		.stabn	68,0,84,.LM8-rprintfStrLen
+ 201               	.LM8:
+GAS LISTING /var/tmp//ccnENx6U.s 			page 6
+
+
+ 202               	/* prologue: frame size=0 */
+ 203 0034 EF92      		push r14
+ 204 0036 FF92      		push r15
+ 205 0038 0F93      		push r16
+ 206 003a 1F93      		push r17
+ 207 003c CF93      		push r28
+ 208 003e DF93      		push r29
+ 209               	/* prologue end (size=6) */
+ 210 0040 7A01      		movw r14,r20
+  85:rprintf.c     **** 	register int i=0;
+  86:rprintf.c     **** 
+  87:rprintf.c     **** 	// check to make sure we have a good pointer
+  88:rprintf.c     **** 	if (!str) return;
+ 211               		.stabn	68,0,88,.LM9-rprintfStrLen
+ 212               	.LM9:
+ 213 0042 0097      		sbiw r24,0
+ 214 0044 01F0      		breq .L22
+ 215               		.stabn	68,0,88,.LM10-rprintfStrLen
+ 216               	.LM10:
+ 217 0046 EC01      		movw r28,r24
+ 218 0048 680F      		add r22,r24
+ 219 004a 791F      		adc r23,r25
+ 220               	.L14:
+  89:rprintf.c     **** 	// spin through characters up to requested start
+  90:rprintf.c     **** 	// keep going as long as there's no null
+  91:rprintf.c     **** 	while((i++<start) && (*str++));
+ 221               		.stabn	68,0,91,.LM11-rprintfStrLen
+ 222               	.LM11:
+ 223 004c C617      		cp r28,r22
+ 224 004e D707      		cpc r29,r23
+ 225 0050 01F0      		breq .L15
+ 226 0052 8991      		ld r24,Y+
+ 227 0054 8823      		tst r24
+ 228 0056 01F4      		brne .L14
+ 229               	.L15:
+ 230 0058 00E0      		ldi r16,lo8(0)
+ 231 005a 10E0      		ldi r17,hi8(0)
+ 232 005c 00C0      		rjmp .L17
+ 233               	.L18:
+  92:rprintf.c     **** //	for(i=0; i<start; i++)
+  93:rprintf.c     **** //	{
+  94:rprintf.c     **** //		// keep steping through string as long as there's no null
+  95:rprintf.c     **** //		if(*str) str++;
+  96:rprintf.c     **** //	}
+  97:rprintf.c     **** 
+  98:rprintf.c     **** 	// then print exactly len characters
+  99:rprintf.c     **** 	for(i=0; i<len; i++)
+ 100:rprintf.c     **** 	{
+ 101:rprintf.c     **** 		// print data out of the string as long as we haven't reached a null yet
+ 102:rprintf.c     **** 		// at the null, start printing spaces
+ 103:rprintf.c     **** 		if(*str)
+ 234               		.stabn	68,0,103,.LM12-rprintfStrLen
+ 235               	.LM12:
+ 236 005e 8881      		ld r24,Y
+ 237 0060 8823      		tst r24
+ 238 0062 01F0      		breq .L19
+ 104:rprintf.c     **** 			rprintfChar(*str++);
+GAS LISTING /var/tmp//ccnENx6U.s 			page 7
+
+
+ 239               		.stabn	68,0,104,.LM13-rprintfStrLen
+ 240               	.LM13:
+ 241 0064 2196      		adiw r28,1
+ 242 0066 00C0      		rjmp .L24
+ 243               	.L19:
+ 105:rprintf.c     **** 		else
+ 106:rprintf.c     **** 			rprintfChar(' ');
+ 244               		.stabn	68,0,106,.LM14-rprintfStrLen
+ 245               	.LM14:
+ 246 0068 80E2      		ldi r24,lo8(32)
+ 247               	.L24:
+ 248 006a 0E94 0000 		call rprintfChar
+ 249               		.stabn	68,0,99,.LM15-rprintfStrLen
+ 250               	.LM15:
+ 251 006e 0F5F      		subi r16,lo8(-(1))
+ 252 0070 1F4F      		sbci r17,hi8(-(1))
+ 253               	.L17:
+ 254 0072 0E15      		cp r16,r14
+ 255 0074 1F05      		cpc r17,r15
+ 256 0076 01F4      		brne .L18
+ 257               	.L22:
+ 258               	/* epilogue: frame size=0 */
+ 259 0078 DF91      		pop r29
+ 260 007a CF91      		pop r28
+ 261 007c 1F91      		pop r17
+ 262 007e 0F91      		pop r16
+ 263 0080 FF90      		pop r15
+ 264 0082 EF90      		pop r14
+ 265 0084 0895      		ret
+ 266               	/* epilogue end (size=7) */
+ 267               	/* function rprintfStrLen size 41 (28) */
+ 268               		.size	rprintfStrLen, .-rprintfStrLen
+ 269               		.stabs	"i:r(0,1)",64,0,85,16
+ 270               		.stabn	192,0,0,rprintfStrLen-rprintfStrLen
+ 271               		.stabn	224,0,0,.Lscope3-rprintfStrLen
+ 272               	.Lscope3:
+ 273               		.stabs	"",36,0,0,.Lscope3-rprintfStrLen
+ 274               		.stabd	78,0,0
+ 275               		.stabs	"rprintfProgStr:F(0,15)",36,0,114,rprintfProgStr
+ 276               		.stabs	"str:P(0,19)=*(0,20)=k(1,3)",64,0,113,28
+ 277               	.global	rprintfProgStr
+ 278               		.type	rprintfProgStr, @function
+ 279               	rprintfProgStr:
+ 280               		.stabd	46,0,0
+ 107:rprintf.c     **** 	}
+ 108:rprintf.c     **** 
+ 109:rprintf.c     **** }
+ 110:rprintf.c     **** 
+ 111:rprintf.c     **** // *** rprintfProgStr ***
+ 112:rprintf.c     **** // prints a null-terminated string stored in program ROM
+ 113:rprintf.c     **** void rprintfProgStr(const prog_char str[])
+ 114:rprintf.c     **** {
+ 281               		.stabn	68,0,114,.LM16-rprintfProgStr
+ 282               	.LM16:
+ 283               	/* prologue: frame size=0 */
+ 284 0086 CF93      		push r28
+ 285 0088 DF93      		push r29
+GAS LISTING /var/tmp//ccnENx6U.s 			page 8
+
+
+ 286               	/* prologue end (size=2) */
+ 287 008a EC01      		movw r28,r24
+ 115:rprintf.c     **** 	// print a string stored in program memory
+ 116:rprintf.c     **** 	register char c;
+ 117:rprintf.c     **** 
+ 118:rprintf.c     **** 	// check to make sure we have a good pointer
+ 119:rprintf.c     **** 	if (!str) return;
+ 288               		.stabn	68,0,119,.LM17-rprintfProgStr
+ 289               	.LM17:
+ 290 008c 892B      		or r24,r25
+ 291 008e 01F4      		brne .L30
+ 292 0090 00C0      		rjmp .L29
+ 293               	.L28:
+ 120:rprintf.c     **** 	
+ 121:rprintf.c     **** 	// print the string until the null-terminator
+ 122:rprintf.c     **** 	while((c = pgm_read_byte(str++)))
+ 123:rprintf.c     **** 		rprintfChar(c);
+ 294               		.stabn	68,0,123,.LM18-rprintfProgStr
+ 295               	.LM18:
+ 296 0092 0E94 0000 		call rprintfChar
+ 297               	.L30:
+ 298 0096 FE01      		movw r30,r28
+ 299               	.LBB2:
+ 300               		.stabn	68,0,122,.LM19-rprintfProgStr
+ 301               	.LM19:
+ 302 0098 2196      		adiw r28,1
+ 303               	/* #APP */
+ 304 009a 8491      		lpm r24, Z
+ 305               		
+ 306               	/* #NOAPP */
+ 307               	.LBE2:
+ 308 009c 8823      		tst r24
+ 309 009e 01F4      		brne .L28
+ 310               	.L29:
+ 311               	/* epilogue: frame size=0 */
+ 312 00a0 DF91      		pop r29
+ 313 00a2 CF91      		pop r28
+ 314 00a4 0895      		ret
+ 315               	/* epilogue end (size=3) */
+ 316               	/* function rprintfProgStr size 19 (14) */
+ 317               		.size	rprintfProgStr, .-rprintfProgStr
+ 318               		.stabs	"__addr16:r(3,4)",64,0,122,30
+ 319               		.stabs	"__result:r(3,2)",64,0,122,24
+ 320               		.stabn	192,0,0,.LBB2-rprintfProgStr
+ 321               		.stabn	224,0,0,.LBE2-rprintfProgStr
+ 322               	.Lscope4:
+ 323               		.stabs	"",36,0,0,.Lscope4-rprintfProgStr
+ 324               		.stabd	78,0,0
+ 325               		.stabs	"rprintfCRLF:F(0,15)",36,0,129,rprintfCRLF
+ 326               	.global	rprintfCRLF
+ 327               		.type	rprintfCRLF, @function
+ 328               	rprintfCRLF:
+ 329               		.stabd	46,0,0
+ 124:rprintf.c     **** }
+ 125:rprintf.c     **** 
+ 126:rprintf.c     **** // *** rprintfCRLF ***
+ 127:rprintf.c     **** // prints carriage return and line feed
+GAS LISTING /var/tmp//ccnENx6U.s 			page 9
+
+
+ 128:rprintf.c     **** void rprintfCRLF(void)
+ 129:rprintf.c     **** {
+ 330               		.stabn	68,0,129,.LM20-rprintfCRLF
+ 331               	.LM20:
+ 332               	/* prologue: frame size=0 */
+ 333               	/* prologue end (size=0) */
+ 130:rprintf.c     **** 	// print CR/LF
+ 131:rprintf.c     **** 	rprintfChar('\r');
+ 334               		.stabn	68,0,131,.LM21-rprintfCRLF
+ 335               	.LM21:
+ 336 00a6 8DE0      		ldi r24,lo8(13)
+ 337 00a8 0E94 0000 		call rprintfChar
+ 132:rprintf.c     **** 	rprintfChar('\n');
+ 338               		.stabn	68,0,132,.LM22-rprintfCRLF
+ 339               	.LM22:
+ 340 00ac 8AE0      		ldi r24,lo8(10)
+ 341 00ae 0E94 0000 		call rprintfChar
+ 342               	/* epilogue: frame size=0 */
+ 343 00b2 0895      		ret
+ 344               	/* epilogue end (size=1) */
+ 345               	/* function rprintfCRLF size 7 (6) */
+ 346               		.size	rprintfCRLF, .-rprintfCRLF
+ 347               	.Lscope5:
+ 348               		.stabs	"",36,0,0,.Lscope5-rprintfCRLF
+ 349               		.stabd	78,0,0
+ 350               		.stabs	"rprintfu04:F(0,15)",36,0,138,rprintfu04
+ 351               		.stabs	"data:P(0,11)",64,0,137,24
+ 352               	.global	rprintfu04
+ 353               		.type	rprintfu04, @function
+ 354               	rprintfu04:
+ 355               		.stabd	46,0,0
+ 133:rprintf.c     **** }
+ 134:rprintf.c     **** 
+ 135:rprintf.c     **** // *** rprintfu04 ***
+ 136:rprintf.c     **** // prints an unsigned 4-bit number in hex (1 digit)
+ 137:rprintf.c     **** void rprintfu04(unsigned char data)
+ 138:rprintf.c     **** {
+ 356               		.stabn	68,0,138,.LM23-rprintfu04
+ 357               	.LM23:
+ 358               	/* prologue: frame size=0 */
+ 359               	/* prologue end (size=0) */
+ 360               	.LBB3:
+ 139:rprintf.c     **** 	// print 4-bit hex value
+ 140:rprintf.c     **** //	char Character = data&0x0f;
+ 141:rprintf.c     **** //	if (Character>9)
+ 142:rprintf.c     **** //		Character+='A'-10;
+ 143:rprintf.c     **** //	else
+ 144:rprintf.c     **** //		Character+='0';
+ 145:rprintf.c     **** 	rprintfChar(pgm_read_byte( HexChars+(data&0x0f) ));
+ 361               		.stabn	68,0,145,.LM24-rprintfu04
+ 362               	.LM24:
+ 363 00b4 E82F      		mov r30,r24
+ 364 00b6 FF27      		clr r31
+ 365 00b8 EF70      		andi r30,lo8(15)
+ 366 00ba F070      		andi r31,hi8(15)
+ 367 00bc E050      		subi r30,lo8(-(HexChars))
+ 368 00be F040      		sbci r31,hi8(-(HexChars))
+GAS LISTING /var/tmp//ccnENx6U.s 			page 10
+
+
+ 369               	/* #APP */
+ 370 00c0 E491      		lpm r30, Z
+ 371               		
+ 372               	/* #NOAPP */
+ 373               	.LBE3:
+ 374 00c2 8E2F      		mov r24,r30
+ 375 00c4 0E94 0000 		call rprintfChar
+ 376               	/* epilogue: frame size=0 */
+ 377 00c8 0895      		ret
+ 378               	/* epilogue end (size=1) */
+ 379               	/* function rprintfu04 size 14 (13) */
+ 380               		.size	rprintfu04, .-rprintfu04
+ 381               		.stabs	"__result:r(3,2)",64,0,145,30
+ 382               		.stabn	192,0,0,.LBB3-rprintfu04
+ 383               		.stabn	224,0,0,.LBE3-rprintfu04
+ 384               	.Lscope6:
+ 385               		.stabs	"",36,0,0,.Lscope6-rprintfu04
+ 386               		.stabd	78,0,0
+ 387               		.stabs	"rprintfu08:F(0,15)",36,0,151,rprintfu08
+ 388               		.stabs	"data:P(0,11)",64,0,150,17
+ 389               	.global	rprintfu08
+ 390               		.type	rprintfu08, @function
+ 391               	rprintfu08:
+ 392               		.stabd	46,0,0
+ 146:rprintf.c     **** }
+ 147:rprintf.c     **** 
+ 148:rprintf.c     **** // *** rprintfu08 ***
+ 149:rprintf.c     **** // prints an unsigned 8-bit number in hex (2 digits)
+ 150:rprintf.c     **** void rprintfu08(unsigned char data)
+ 151:rprintf.c     **** {
+ 393               		.stabn	68,0,151,.LM25-rprintfu08
+ 394               	.LM25:
+ 395               	/* prologue: frame size=0 */
+ 396 00ca 1F93      		push r17
+ 397               	/* prologue end (size=1) */
+ 398 00cc 182F      		mov r17,r24
+ 152:rprintf.c     **** 	// print 8-bit hex value
+ 153:rprintf.c     **** 	rprintfu04(data>>4);
+ 399               		.stabn	68,0,153,.LM26-rprintfu08
+ 400               	.LM26:
+ 401 00ce 8295      		swap r24
+ 402 00d0 8F70      		andi r24,0x0f
+ 403 00d2 0E94 0000 		call rprintfu04
+ 154:rprintf.c     **** 	rprintfu04(data);
+ 404               		.stabn	68,0,154,.LM27-rprintfu08
+ 405               	.LM27:
+ 406 00d6 812F      		mov r24,r17
+ 407 00d8 0E94 0000 		call rprintfu04
+ 408               	/* epilogue: frame size=0 */
+ 409 00dc 1F91      		pop r17
+ 410 00de 0895      		ret
+ 411               	/* epilogue end (size=2) */
+ 412               	/* function rprintfu08 size 11 (8) */
+ 413               		.size	rprintfu08, .-rprintfu08
+ 414               	.Lscope7:
+ 415               		.stabs	"",36,0,0,.Lscope7-rprintfu08
+ 416               		.stabd	78,0,0
+GAS LISTING /var/tmp//ccnENx6U.s 			page 11
+
+
+ 417               		.stabs	"rprintfu16:F(0,15)",36,0,160,rprintfu16
+ 418               		.stabs	"data:P(0,9)",64,0,159,16
+ 419               	.global	rprintfu16
+ 420               		.type	rprintfu16, @function
+ 421               	rprintfu16:
+ 422               		.stabd	46,0,0
+ 155:rprintf.c     **** }
+ 156:rprintf.c     **** 
+ 157:rprintf.c     **** // *** rprintfu16 ***
+ 158:rprintf.c     **** // prints an unsigned 16-bit number in hex (4 digits)
+ 159:rprintf.c     **** void rprintfu16(unsigned short data)
+ 160:rprintf.c     **** {
+ 423               		.stabn	68,0,160,.LM28-rprintfu16
+ 424               	.LM28:
+ 425               	/* prologue: frame size=0 */
+ 426 00e0 0F93      		push r16
+ 427 00e2 1F93      		push r17
+ 428               	/* prologue end (size=2) */
+ 429 00e4 8C01      		movw r16,r24
+ 161:rprintf.c     **** 	// print 16-bit hex value
+ 162:rprintf.c     **** 	rprintfu08(data>>8);
+ 430               		.stabn	68,0,162,.LM29-rprintfu16
+ 431               	.LM29:
+ 432 00e6 812F      		mov r24,r17
+ 433 00e8 9927      		clr r25
+ 434 00ea 0E94 0000 		call rprintfu08
+ 163:rprintf.c     **** 	rprintfu08(data);
+ 435               		.stabn	68,0,163,.LM30-rprintfu16
+ 436               	.LM30:
+ 437 00ee 802F      		mov r24,r16
+ 438 00f0 0E94 0000 		call rprintfu08
+ 439               	/* epilogue: frame size=0 */
+ 440 00f4 1F91      		pop r17
+ 441 00f6 0F91      		pop r16
+ 442 00f8 0895      		ret
+ 443               	/* epilogue end (size=3) */
+ 444               	/* function rprintfu16 size 13 (8) */
+ 445               		.size	rprintfu16, .-rprintfu16
+ 446               	.Lscope8:
+ 447               		.stabs	"",36,0,0,.Lscope8-rprintfu16
+ 448               		.stabd	78,0,0
+ 449               		.stabs	"rprintfu32:F(0,15)",36,0,169,rprintfu32
+ 450               		.stabs	"data:P(0,5)",64,0,168,14
+ 451               	.global	rprintfu32
+ 452               		.type	rprintfu32, @function
+ 453               	rprintfu32:
+ 454               		.stabd	46,0,0
+ 164:rprintf.c     **** }
+ 165:rprintf.c     **** 
+ 166:rprintf.c     **** // *** rprintfu32 ***
+ 167:rprintf.c     **** // prints an unsigned 32-bit number in hex (8 digits)
+ 168:rprintf.c     **** void rprintfu32(unsigned long data)
+ 169:rprintf.c     **** {
+ 455               		.stabn	68,0,169,.LM31-rprintfu32
+ 456               	.LM31:
+ 457               	/* prologue: frame size=0 */
+ 458 00fa EF92      		push r14
+GAS LISTING /var/tmp//ccnENx6U.s 			page 12
+
+
+ 459 00fc FF92      		push r15
+ 460 00fe 0F93      		push r16
+ 461 0100 1F93      		push r17
+ 462               	/* prologue end (size=4) */
+ 463 0102 7B01      		movw r14,r22
+ 464 0104 8C01      		movw r16,r24
+ 170:rprintf.c     **** 	// print 32-bit hex value
+ 171:rprintf.c     **** 	rprintfu16(data>>16);
+ 465               		.stabn	68,0,171,.LM32-rprintfu32
+ 466               	.LM32:
+ 467 0106 C801      		movw r24,r16
+ 468 0108 AA27      		clr r26
+ 469 010a BB27      		clr r27
+ 470 010c 0E94 0000 		call rprintfu16
+ 172:rprintf.c     **** 	rprintfu16(data);
+ 471               		.stabn	68,0,172,.LM33-rprintfu32
+ 472               	.LM33:
+ 473 0110 C701      		movw r24,r14
+ 474 0112 0E94 0000 		call rprintfu16
+ 475               	/* epilogue: frame size=0 */
+ 476 0116 1F91      		pop r17
+ 477 0118 0F91      		pop r16
+ 478 011a FF90      		pop r15
+ 479 011c EF90      		pop r14
+ 480 011e 0895      		ret
+ 481               	/* epilogue end (size=5) */
+ 482               	/* function rprintfu32 size 19 (10) */
+ 483               		.size	rprintfu32, .-rprintfu32
+ 484               	.Lscope9:
+ 485               		.stabs	"",36,0,0,.Lscope9-rprintfu32
+ 486               		.stabd	78,0,0
+ 487               		.stabs	"rprintfNum:F(0,15)",36,0,188,rprintfNum
+ 488               		.stabs	"base:P(0,2)",64,0,187,24
+ 489               		.stabs	"numDigits:p(0,2)",160,0,187,33
+ 490               		.stabs	"isSigned:P(0,2)",64,0,187,2
+ 491               		.stabs	"padchar:p(0,2)",160,0,187,34
+ 492               		.stabs	"n:P(0,3)",64,0,187,4
+ 493               	.global	rprintfNum
+ 494               		.type	rprintfNum, @function
+ 495               	rprintfNum:
+ 496               		.stabd	46,0,0
+ 173:rprintf.c     **** }
+ 174:rprintf.c     **** 
+ 175:rprintf.c     **** // *** rprintfNum ***
+ 176:rprintf.c     **** // special printf for numbers only
+ 177:rprintf.c     **** // see formatting information below
+ 178:rprintf.c     **** //	Print the number "n" in the given "base"
+ 179:rprintf.c     **** //	using exactly "numDigits"
+ 180:rprintf.c     **** //	print +/- if signed flag "isSigned" is TRUE
+ 181:rprintf.c     **** //	use the character specified in "padchar" to pad extra characters
+ 182:rprintf.c     **** //
+ 183:rprintf.c     **** //	Examples:
+ 184:rprintf.c     **** //	uartPrintfNum(10, 6,  TRUE, ' ',   1234);  -->  " +1234"
+ 185:rprintf.c     **** //	uartPrintfNum(10, 6, FALSE, '0',   1234);  -->  "001234"
+ 186:rprintf.c     **** //	uartPrintfNum(16, 6, FALSE, '.', 0x5AA5);  -->  "..5AA5"
+ 187:rprintf.c     **** void rprintfNum(char base, char numDigits, char isSigned, char padchar, long n)
+ 188:rprintf.c     **** {
+GAS LISTING /var/tmp//ccnENx6U.s 			page 13
+
+
+ 497               		.stabn	68,0,188,.LM34-rprintfNum
+ 498               	.LM34:
+ 499               	/* prologue: frame size=34 */
+ 500 0120 2F92      		push r2
+ 501 0122 3F92      		push r3
+ 502 0124 4F92      		push r4
+ 503 0126 5F92      		push r5
+ 504 0128 6F92      		push r6
+ 505 012a 7F92      		push r7
+ 506 012c 8F92      		push r8
+ 507 012e 9F92      		push r9
+ 508 0130 AF92      		push r10
+ 509 0132 BF92      		push r11
+ 510 0134 CF92      		push r12
+ 511 0136 DF92      		push r13
+ 512 0138 EF92      		push r14
+ 513 013a FF92      		push r15
+ 514 013c 0F93      		push r16
+ 515 013e 1F93      		push r17
+ 516 0140 CF93      		push r28
+ 517 0142 DF93      		push r29
+ 518 0144 CDB7      		in r28,__SP_L__
+ 519 0146 DEB7      		in r29,__SP_H__
+ 520 0148 A297      		sbiw r28,34
+ 521 014a 0FB6      		in __tmp_reg__,__SREG__
+ 522 014c F894      		cli
+ 523 014e DEBF      		out __SP_H__,r29
+ 524 0150 0FBE      		out __SREG__,__tmp_reg__
+ 525 0152 CDBF      		out __SP_L__,r28
+ 526               	/* prologue end (size=26) */
+ 527 0154 69A3      		std Y+33,r22
+ 528 0156 242E      		mov r2,r20
+ 529 0158 2AA3      		std Y+34,r18
+ 530 015a 2701      		movw r4,r14
+ 531 015c 3801      		movw r6,r16
+ 189:rprintf.c     **** 	// define a global HexChars or use line below
+ 190:rprintf.c     **** 	//static char HexChars[16] = "0123456789ABCDEF";
+ 191:rprintf.c     **** 	char *p, buf[32];
+ 192:rprintf.c     **** 	unsigned long x;
+ 193:rprintf.c     **** 	unsigned char count;
+ 194:rprintf.c     **** 
+ 195:rprintf.c     **** 	// prepare negative number
+ 196:rprintf.c     **** 	if( isSigned && (n < 0) )
+ 532               		.stabn	68,0,196,.LM35-rprintfNum
+ 533               	.LM35:
+ 534 015e 4423      		tst r20
+ 535 0160 01F0      		breq .L42
+ 536               		.stabn	68,0,196,.LM36-rprintfNum
+ 537               	.LM36:
+ 538 0162 17FF      		sbrs r17,7
+ 539 0164 00C0      		rjmp .L42
+ 197:rprintf.c     **** 	{
+ 198:rprintf.c     **** 		x = -n;
+ 540               		.stabn	68,0,198,.LM37-rprintfNum
+ 541               	.LM37:
+ 542 0166 EE24      		clr r14
+ 543 0168 FF24      		clr r15
+GAS LISTING /var/tmp//ccnENx6U.s 			page 14
+
+
+ 544 016a 8701      		movw r16,r14
+ 545 016c E418      		sub r14,r4
+ 546 016e F508      		sbc r15,r5
+ 547 0170 0609      		sbc r16,r6
+ 548 0172 1709      		sbc r17,r7
+ 549 0174 00C0      		rjmp .L45
+ 550               	.L42:
+ 199:rprintf.c     **** 	}
+ 200:rprintf.c     **** 	else
+ 201:rprintf.c     **** 	{
+ 202:rprintf.c     **** 	 	x = n;
+ 551               		.stabn	68,0,202,.LM38-rprintfNum
+ 552               	.LM38:
+ 553 0176 8301      		movw r16,r6
+ 554 0178 7201      		movw r14,r4
+ 555               	.L45:
+ 203:rprintf.c     **** 	}
+ 204:rprintf.c     **** 
+ 205:rprintf.c     **** 	// setup little string buffer
+ 206:rprintf.c     **** 	count = (numDigits-1)-(isSigned?1:0);
+ 556               		.stabn	68,0,206,.LM39-rprintfNum
+ 557               	.LM39:
+ 558 017a 90E0      		ldi r25,lo8(0)
+ 559 017c 2110      		cpse r2,__zero_reg__
+ 560 017e 91E0      		ldi r25,lo8(1)
+ 561               	.L46:
+ 562 0180 39A0      		ldd r3,Y+33
+ 563 0182 391A      		sub r3,r25
+ 564 0184 3A94      		dec r3
+ 207:rprintf.c     ****   	p = buf + sizeof (buf);
+ 208:rprintf.c     ****   	*--p = '\0';
+ 565               		.stabn	68,0,208,.LM40-rprintfNum
+ 566               	.LM40:
+ 567 0186 18A2      		std Y+32,__zero_reg__
+ 568               	.LBB4:
+ 209:rprintf.c     **** 	
+ 210:rprintf.c     **** 	// force calculation of first digit
+ 211:rprintf.c     **** 	// (to prevent zero from not printing at all!!!)
+ 212:rprintf.c     **** 	*--p = pgm_read_byte(HexChars + (x%base)); x /= base;
+ 569               		.stabn	68,0,212,.LM41-rprintfNum
+ 570               	.LM41:
+ 571 0188 A82E      		mov r10,r24
+ 572 018a BB24      		clr r11
+ 573 018c CC24      		clr r12
+ 574 018e DD24      		clr r13
+ 575 0190 C801      		movw r24,r16
+ 576 0192 B701      		movw r22,r14
+ 577 0194 A601      		movw r20,r12
+ 578 0196 9501      		movw r18,r10
+ 579 0198 0E94 0000 		call __udivmodsi4
+ 580 019c FB01      		movw r30,r22
+ 581 019e E050      		subi r30,lo8(-(HexChars))
+ 582 01a0 F040      		sbci r31,hi8(-(HexChars))
+ 583               	/* #APP */
+ 584 01a2 6491      		lpm r22, Z
+ 585               		
+ 586               	/* #NOAPP */
+GAS LISTING /var/tmp//ccnENx6U.s 			page 15
+
+
+ 587               	.LBE4:
+ 588 01a4 6F8F      		std Y+31,r22
+ 589 01a6 C801      		movw r24,r16
+ 590 01a8 B701      		movw r22,r14
+ 591 01aa A601      		movw r20,r12
+ 592 01ac 9501      		movw r18,r10
+ 593 01ae 0E94 0000 		call __udivmodsi4
+ 594 01b2 7901      		movw r14,r18
+ 595 01b4 8A01      		movw r16,r20
+ 596 01b6 2FE1      		ldi r18,lo8(31)
+ 597 01b8 822E      		mov r8,r18
+ 598 01ba 912C      		mov r9,__zero_reg__
+ 599 01bc 8C0E      		add r8,r28
+ 600 01be 9D1E      		adc r9,r29
+ 601 01c0 00C0      		rjmp .L68
+ 602               	.L48:
+ 603 01c2 C401      		movw r24,r8
+ 604 01c4 0197      		sbiw r24,1
+ 213:rprintf.c     **** 	// calculate remaining digits
+ 214:rprintf.c     **** 	while(count--)
+ 215:rprintf.c     **** 	{
+ 216:rprintf.c     **** 		if(x != 0)
+ 605               		.stabn	68,0,216,.LM42-rprintfNum
+ 606               	.LM42:
+ 607 01c6 E114      		cp r14,__zero_reg__
+ 608 01c8 F104      		cpc r15,__zero_reg__
+ 609 01ca 0105      		cpc r16,__zero_reg__
+ 610 01cc 1105      		cpc r17,__zero_reg__
+ 611 01ce 01F0      		breq .L49
+ 217:rprintf.c     **** 		{
+ 218:rprintf.c     **** 			// calculate next digit
+ 219:rprintf.c     **** 			*--p = pgm_read_byte(HexChars + (x%base)); x /= base;
+ 612               		.stabn	68,0,219,.LM43-rprintfNum
+ 613               	.LM43:
+ 614 01d0 4C01      		movw r8,r24
+ 615               	.LBB5:
+ 616 01d2 C801      		movw r24,r16
+ 617 01d4 B701      		movw r22,r14
+ 618 01d6 A601      		movw r20,r12
+ 619 01d8 9501      		movw r18,r10
+ 620 01da 0E94 0000 		call __udivmodsi4
+ 621 01de FB01      		movw r30,r22
+ 622 01e0 E050      		subi r30,lo8(-(HexChars))
+ 623 01e2 F040      		sbci r31,hi8(-(HexChars))
+ 624               	/* #APP */
+ 625 01e4 6491      		lpm r22, Z
+ 626               		
+ 627               	/* #NOAPP */
+ 628               	.LBE5:
+ 629 01e6 F401      		movw r30,r8
+ 630 01e8 6083      		st Z,r22
+ 631 01ea C801      		movw r24,r16
+ 632 01ec B701      		movw r22,r14
+ 633 01ee A601      		movw r20,r12
+ 634 01f0 9501      		movw r18,r10
+ 635 01f2 0E94 0000 		call __udivmodsi4
+ 636 01f6 7901      		movw r14,r18
+GAS LISTING /var/tmp//ccnENx6U.s 			page 16
+
+
+ 637 01f8 8A01      		movw r16,r20
+ 638 01fa 00C0      		rjmp .L68
+ 639               	.L49:
+ 220:rprintf.c     **** 		}
+ 221:rprintf.c     **** 		else
+ 222:rprintf.c     **** 		{
+ 223:rprintf.c     **** 			// no more digits left, pad out to desired length
+ 224:rprintf.c     **** 			*--p = padchar;
+ 640               		.stabn	68,0,224,.LM44-rprintfNum
+ 641               	.LM44:
+ 642 01fc 4C01      		movw r8,r24
+ 643 01fe 8AA1      		ldd r24,Y+34
+ 644 0200 F401      		movw r30,r8
+ 645 0202 8083      		st Z,r24
+ 646               	.L68:
+ 647               		.stabn	68,0,214,.LM45-rprintfNum
+ 648               	.LM45:
+ 649 0204 3A94      		dec r3
+ 650 0206 EFEF      		ldi r30,lo8(-1)
+ 651 0208 3E16      		cp r3,r30
+ 652 020a 01F4      		brne .L48
+ 225:rprintf.c     **** 		}
+ 226:rprintf.c     **** 	}
+ 227:rprintf.c     **** 
+ 228:rprintf.c     **** 	// apply signed notation if requested
+ 229:rprintf.c     **** 	if( isSigned )
+ 653               		.stabn	68,0,229,.LM46-rprintfNum
+ 654               	.LM46:
+ 655 020c 2220      		tst r2
+ 656 020e 01F0      		breq .L52
+ 230:rprintf.c     **** 	{
+ 231:rprintf.c     **** 		if(n < 0)
+ 657               		.stabn	68,0,231,.LM47-rprintfNum
+ 658               	.LM47:
+ 659 0210 77FE      		sbrs r7,7
+ 660 0212 00C0      		rjmp .L54
+ 232:rprintf.c     **** 		{
+ 233:rprintf.c     ****    			*--p = '-';
+ 661               		.stabn	68,0,233,.LM48-rprintfNum
+ 662               	.LM48:
+ 663 0214 8DE2      		ldi r24,lo8(45)
+ 664 0216 F401      		movw r30,r8
+ 665 0218 8293      		st -Z,r24
+ 666 021a 4F01      		movw r8,r30
+ 667 021c 00C0      		rjmp .L52
+ 668               	.L54:
+ 669 021e C401      		movw r24,r8
+ 670 0220 0197      		sbiw r24,1
+ 234:rprintf.c     **** 		}
+ 235:rprintf.c     **** 		else if(n > 0)
+ 671               		.stabn	68,0,235,.LM49-rprintfNum
+ 672               	.LM49:
+ 673 0222 4114      		cp r4,__zero_reg__
+ 674 0224 5104      		cpc r5,__zero_reg__
+ 675 0226 6104      		cpc r6,__zero_reg__
+ 676 0228 7104      		cpc r7,__zero_reg__
+ 677 022a 01F0      		breq .L56
+GAS LISTING /var/tmp//ccnENx6U.s 			page 17
+
+
+ 236:rprintf.c     **** 		{
+ 237:rprintf.c     **** 	   		*--p = '+';
+ 678               		.stabn	68,0,237,.LM50-rprintfNum
+ 679               	.LM50:
+ 680 022c 4C01      		movw r8,r24
+ 681 022e 8BE2      		ldi r24,lo8(43)
+ 682 0230 00C0      		rjmp .L67
+ 683               	.L56:
+ 238:rprintf.c     **** 		}
+ 239:rprintf.c     **** 		else
+ 240:rprintf.c     **** 		{
+ 241:rprintf.c     **** 	   		*--p = ' ';
+ 684               		.stabn	68,0,241,.LM51-rprintfNum
+ 685               	.LM51:
+ 686 0232 4C01      		movw r8,r24
+ 687 0234 80E2      		ldi r24,lo8(32)
+ 688               	.L67:
+ 689 0236 F401      		movw r30,r8
+ 690 0238 8083      		st Z,r24
+ 691               	.L52:
+ 692 023a 19A1      		ldd r17,Y+33
+ 693 023c 00C0      		rjmp .L58
+ 694               	.L59:
+ 242:rprintf.c     **** 		}
+ 243:rprintf.c     **** 	}
+ 244:rprintf.c     **** 
+ 245:rprintf.c     **** 	// print the string right-justified
+ 246:rprintf.c     **** 	count = numDigits;
+ 247:rprintf.c     **** 	while(count--)
+ 248:rprintf.c     **** 	{
+ 249:rprintf.c     **** 		rprintfChar(*p++);
+ 695               		.stabn	68,0,249,.LM52-rprintfNum
+ 696               	.LM52:
+ 697 023e F401      		movw r30,r8
+ 698 0240 8191      		ld r24,Z+
+ 699 0242 4F01      		movw r8,r30
+ 700 0244 0E94 0000 		call rprintfChar
+ 701               	.L58:
+ 702               		.stabn	68,0,247,.LM53-rprintfNum
+ 703               	.LM53:
+ 704 0248 1150      		subi r17,1
+ 705 024a 00F4      		brcc .L59
+ 706               	/* epilogue: frame size=34 */
+ 707 024c A296      		adiw r28,34
+ 708 024e 0FB6      		in __tmp_reg__,__SREG__
+ 709 0250 F894      		cli
+ 710 0252 DEBF      		out __SP_H__,r29
+ 711 0254 0FBE      		out __SREG__,__tmp_reg__
+ 712 0256 CDBF      		out __SP_L__,r28
+ 713 0258 DF91      		pop r29
+ 714 025a CF91      		pop r28
+ 715 025c 1F91      		pop r17
+ 716 025e 0F91      		pop r16
+ 717 0260 FF90      		pop r15
+ 718 0262 EF90      		pop r14
+ 719 0264 DF90      		pop r13
+ 720 0266 CF90      		pop r12
+GAS LISTING /var/tmp//ccnENx6U.s 			page 18
+
+
+ 721 0268 BF90      		pop r11
+ 722 026a AF90      		pop r10
+ 723 026c 9F90      		pop r9
+ 724 026e 8F90      		pop r8
+ 725 0270 7F90      		pop r7
+ 726 0272 6F90      		pop r6
+ 727 0274 5F90      		pop r5
+ 728 0276 4F90      		pop r4
+ 729 0278 3F90      		pop r3
+ 730 027a 2F90      		pop r2
+ 731 027c 0895      		ret
+ 732               	/* epilogue end (size=25) */
+ 733               	/* function rprintfNum size 181 (130) */
+ 734               		.size	rprintfNum, .-rprintfNum
+ 735               		.stabs	"p:r(0,18)",64,0,191,8
+ 736               		.stabs	"buf:(0,21)=ar(0,22)=r(0,22);0;0177777;;0;31;(0,2)",128,0,191,1
+ 737               		.stabs	"x:r(0,5)",64,0,192,14
+ 738               		.stabs	"count:r(0,11)",64,0,193,3
+ 739               		.stabn	192,0,0,rprintfNum-rprintfNum
+ 740               		.stabs	"__result:r(3,2)",64,0,212,22
+ 741               		.stabn	192,0,0,.LBB4-rprintfNum
+ 742               		.stabn	224,0,0,.LBE4-rprintfNum
+ 743               		.stabs	"__result:r(3,2)",64,0,219,22
+ 744               		.stabn	192,0,0,.LBB5-rprintfNum
+ 745               		.stabn	224,0,0,.LBE5-rprintfNum
+ 746               		.stabn	224,0,0,.Lscope10-rprintfNum
+ 747               	.Lscope10:
+ 748               		.stabs	"",36,0,0,.Lscope10-rprintfNum
+ 749               		.stabd	78,0,0
+ 750               		.stabs	"rprintf1RamRom:F(0,1)",36,0,314,rprintf1RamRom
+ 751               		.stabs	"stringInRom:p(0,11)",160,0,313,16
+ 752               		.stabs	"format:p(0,23)=*(0,24)=k(0,2)",160,0,313,17
+ 753               	.global	rprintf1RamRom
+ 754               		.type	rprintf1RamRom, @function
+ 755               	rprintf1RamRom:
+ 756               		.stabd	46,0,0
+ 250:rprintf.c     **** 	}
+ 251:rprintf.c     **** }
+ 252:rprintf.c     **** 
+ 253:rprintf.c     **** #ifdef RPRINTF_FLOAT
+ 254:rprintf.c     **** // *** rprintfFloat ***
+ 255:rprintf.c     **** // floating-point print
+ 256:rprintf.c     **** void rprintfFloat(char numDigits, double x)
+ 257:rprintf.c     **** {
+ 258:rprintf.c     **** 	unsigned char firstplace = FALSE;
+ 259:rprintf.c     **** 	unsigned char negative;
+ 260:rprintf.c     **** 	unsigned char i, digit;
+ 261:rprintf.c     **** 	double place = 1.0;
+ 262:rprintf.c     **** 	
+ 263:rprintf.c     **** 	// save sign
+ 264:rprintf.c     **** 	negative = (x<0);
+ 265:rprintf.c     **** 	// convert to absolute value
+ 266:rprintf.c     **** 	x = (x>0)?(x):(-x);
+ 267:rprintf.c     **** 	
+ 268:rprintf.c     **** 	// find starting digit place
+ 269:rprintf.c     **** 	for(i=0; i<15; i++)
+ 270:rprintf.c     **** 	{
+GAS LISTING /var/tmp//ccnENx6U.s 			page 19
+
+
+ 271:rprintf.c     **** 		if((x/place) < 10.0)
+ 272:rprintf.c     **** 			break;
+ 273:rprintf.c     **** 		else
+ 274:rprintf.c     **** 			place *= 10.0;
+ 275:rprintf.c     **** 	}
+ 276:rprintf.c     **** 	// print polarity character
+ 277:rprintf.c     **** 	if(negative)
+ 278:rprintf.c     **** 		rprintfChar('-');
+ 279:rprintf.c     **** 	else
+ 280:rprintf.c     **** 		rprintfChar('+');
+ 281:rprintf.c     **** 
+ 282:rprintf.c     **** 	// print digits
+ 283:rprintf.c     **** 	for(i=0; i<numDigits; i++)
+ 284:rprintf.c     **** 	{
+ 285:rprintf.c     **** 		digit = (x/place);
+ 286:rprintf.c     **** 
+ 287:rprintf.c     **** 		if(digit | firstplace | (place == 1.0))
+ 288:rprintf.c     **** 		{
+ 289:rprintf.c     **** 			firstplace = TRUE;
+ 290:rprintf.c     **** 			rprintfChar(digit+0x30);
+ 291:rprintf.c     **** 		}
+ 292:rprintf.c     **** 		else
+ 293:rprintf.c     **** 			rprintfChar(' ');
+ 294:rprintf.c     **** 		
+ 295:rprintf.c     **** 		if(place == 1.0)
+ 296:rprintf.c     **** 		{
+ 297:rprintf.c     **** 			rprintfChar('.');
+ 298:rprintf.c     **** 		}
+ 299:rprintf.c     **** 		
+ 300:rprintf.c     **** 		x -= (digit*place);
+ 301:rprintf.c     **** 		place /= 10.0;
+ 302:rprintf.c     **** 	}
+ 303:rprintf.c     **** }
+ 304:rprintf.c     **** #endif
+ 305:rprintf.c     **** 
+ 306:rprintf.c     **** #ifdef RPRINTF_SIMPLE
+ 307:rprintf.c     **** // *** rprintf1RamRom ***
+ 308:rprintf.c     **** // called by rprintf() - does a simple printf (supports %d, %x, %c)
+ 309:rprintf.c     **** // Supports:
+ 310:rprintf.c     **** // %d - decimal
+ 311:rprintf.c     **** // %x - hex
+ 312:rprintf.c     **** // %c - character
+ 313:rprintf.c     **** int rprintf1RamRom(unsigned char stringInRom, const char *format, ...)
+ 314:rprintf.c     **** {
+ 757               		.stabn	68,0,314,.LM54-rprintf1RamRom
+ 758               	.LM54:
+ 759               	/* prologue: frame size=2 */
+ 760 027e 9F92      		push r9
+ 761 0280 AF92      		push r10
+ 762 0282 BF92      		push r11
+ 763 0284 CF92      		push r12
+ 764 0286 DF92      		push r13
+ 765 0288 EF92      		push r14
+ 766 028a FF92      		push r15
+ 767 028c 0F93      		push r16
+ 768 028e 1F93      		push r17
+ 769 0290 CF93      		push r28
+GAS LISTING /var/tmp//ccnENx6U.s 			page 20
+
+
+ 770 0292 DF93      		push r29
+ 771 0294 CDB7      		in r28,__SP_L__
+ 772 0296 DEB7      		in r29,__SP_H__
+ 773 0298 2297      		sbiw r28,2
+ 774 029a 0FB6      		in __tmp_reg__,__SREG__
+ 775 029c F894      		cli
+ 776 029e DEBF      		out __SP_H__,r29
+ 777 02a0 0FBE      		out __SREG__,__tmp_reg__
+ 778 02a2 CDBF      		out __SP_L__,r28
+ 779               	/* prologue end (size=19) */
+ 780 02a4 9888      		ldd r9,Y+16
+ 781 02a6 C988      		ldd r12,Y+17
+ 782 02a8 DA88      		ldd r13,Y+18
+ 315:rprintf.c     **** 	// simple printf routine
+ 316:rprintf.c     **** 	// define a global HexChars or use line below
+ 317:rprintf.c     **** 	//static char HexChars[16] = "0123456789ABCDEF";
+ 318:rprintf.c     **** 	char format_flag;
+ 319:rprintf.c     **** 	unsigned int u_val, div_val, base;
+ 320:rprintf.c     **** 	va_list ap;
+ 321:rprintf.c     **** 
+ 322:rprintf.c     **** 	va_start(ap, format);
+ 783               		.stabn	68,0,322,.LM55-rprintf1RamRom
+ 784               	.LM55:
+ 785 02aa CE01      		movw r24,r28
+ 786 02ac 4396      		adiw r24,19
+ 787 02ae 9A83      		std Y+2,r25
+ 788 02b0 8983      		std Y+1,r24
+ 789 02b2 00C0      		rjmp .L101
+ 790               	.L71:
+ 323:rprintf.c     **** 	for (;;)
+ 324:rprintf.c     **** 	{
+ 325:rprintf.c     **** 		while ((format_flag = READMEMBYTE(stringInRom,format++) ) != '%')
+ 326:rprintf.c     **** 		{	// Until '%' or '\0'
+ 327:rprintf.c     **** 			if (!format_flag)
+ 791               		.stabn	68,0,327,.LM56-rprintf1RamRom
+ 792               	.LM56:
+ 793 02b4 8823      		tst r24
+ 794 02b6 01F4      		brne .+2
+ 795 02b8 00C0      		rjmp .L92
+ 796               	.L100:
+ 328:rprintf.c     **** 			{
+ 329:rprintf.c     **** 				va_end(ap);
+ 330:rprintf.c     **** 				return(0);
+ 331:rprintf.c     **** 			}
+ 332:rprintf.c     **** 			rprintfChar(format_flag);
+ 797               		.stabn	68,0,332,.LM57-rprintf1RamRom
+ 798               	.LM57:
+ 799 02ba 0E94 0000 		call rprintfChar
+ 800               	.L101:
+ 801 02be 9601      		movw r18,r12
+ 802 02c0 2F5F      		subi r18,lo8(-(1))
+ 803 02c2 3F4F      		sbci r19,hi8(-(1))
+ 804               		.stabn	68,0,325,.LM58-rprintf1RamRom
+ 805               	.LM58:
+ 806 02c4 9920      		tst r9
+ 807 02c6 01F0      		breq .L74
+ 808               	.LBB6:
+GAS LISTING /var/tmp//ccnENx6U.s 			page 21
+
+
+ 809 02c8 F601      		movw r30,r12
+ 810 02ca 6901      		movw r12,r18
+ 811               	/* #APP */
+ 812 02cc 8491      		lpm r24, Z
+ 813               		
+ 814               	/* #NOAPP */
+ 815 02ce 00C0      		rjmp .L76
+ 816               	.L74:
+ 817               	.LBE6:
+ 818 02d0 F601      		movw r30,r12
+ 819 02d2 8081      		ld r24,Z
+ 820 02d4 6901      		movw r12,r18
+ 821               	.L76:
+ 822 02d6 8532      		cpi r24,lo8(37)
+ 823 02d8 01F4      		brne .L71
+ 824 02da 2F5F      		subi r18,lo8(-(1))
+ 825 02dc 3F4F      		sbci r19,hi8(-(1))
+ 333:rprintf.c     **** 		}
+ 334:rprintf.c     **** 
+ 335:rprintf.c     **** 		switch (format_flag = READMEMBYTE(stringInRom,format++) )
+ 826               		.stabn	68,0,335,.LM59-rprintf1RamRom
+ 827               	.LM59:
+ 828 02de 9920      		tst r9
+ 829 02e0 01F0      		breq .L78
+ 830               	.LBB7:
+ 831 02e2 F601      		movw r30,r12
+ 832 02e4 6901      		movw r12,r18
+ 833               	/* #APP */
+ 834 02e6 8491      		lpm r24, Z
+ 835               		
+ 836               	/* #NOAPP */
+ 837 02e8 00C0      		rjmp .L80
+ 838               	.L78:
+ 839               	.LBE7:
+ 840 02ea F601      		movw r30,r12
+ 841 02ec 8081      		ld r24,Z
+ 842 02ee 6901      		movw r12,r18
+ 843               	.L80:
+ 844 02f0 8436      		cpi r24,lo8(100)
+ 845 02f2 01F4      		brne .+2
+ 846 02f4 00C0      		rjmp .L83
+ 847 02f6 8837      		cpi r24,lo8(120)
+ 848 02f8 01F0      		breq .L84
+ 849 02fa 8336      		cpi r24,lo8(99)
+ 850 02fc 01F4      		brne .L100
+ 336:rprintf.c     **** 		{
+ 337:rprintf.c     **** 			case 'c': format_flag = va_arg(ap,int);
+ 851               		.stabn	68,0,337,.LM60-rprintf1RamRom
+ 852               	.LM60:
+ 853 02fe E981      		ldd r30,Y+1
+ 854 0300 FA81      		ldd r31,Y+2
+ 855 0302 3296      		adiw r30,2
+ 856 0304 FA83      		std Y+2,r31
+ 857 0306 E983      		std Y+1,r30
+ 858 0308 3297      		sbiw r30,2
+ 859 030a 8081      		ld r24,Z
+ 860 030c 00C0      		rjmp .L100
+GAS LISTING /var/tmp//ccnENx6U.s 			page 22
+
+
+ 861               	.L84:
+ 338:rprintf.c     **** 			default:  rprintfChar(format_flag); continue;
+ 339:rprintf.c     **** 			case 'd': base = 10; div_val = 10000; goto CONVERSION_LOOP;
+ 340:rprintf.c     **** 			case 'x': base = 16; div_val = 0x10;
+ 341:rprintf.c     **** 
+ 342:rprintf.c     **** 			CONVERSION_LOOP:
+ 343:rprintf.c     **** 			u_val = va_arg(ap,int);
+ 862               		.stabn	68,0,343,.LM61-rprintf1RamRom
+ 863               	.LM61:
+ 864 030e E981      		ldd r30,Y+1
+ 865 0310 FA81      		ldd r31,Y+2
+ 866 0312 3296      		adiw r30,2
+ 867 0314 FA83      		std Y+2,r31
+ 868 0316 E983      		std Y+1,r30
+ 869 0318 1291      		ld r17,-Z
+ 870 031a 0291      		ld r16,-Z
+ 871 031c 60E1      		ldi r22,lo8(16)
+ 872 031e E62E      		mov r14,r22
+ 873 0320 F12C      		mov r15,__zero_reg__
+ 874 0322 50E1      		ldi r21,lo8(16)
+ 875 0324 A52E      		mov r10,r21
+ 876 0326 B12C      		mov r11,__zero_reg__
+ 877 0328 00C0      		rjmp .L96
+ 878               	.L86:
+ 344:rprintf.c     **** 			if (format_flag == 'd')
+ 345:rprintf.c     **** 			{
+ 346:rprintf.c     **** 				if (((int)u_val) < 0)
+ 347:rprintf.c     **** 				{
+ 348:rprintf.c     **** 					u_val = - u_val;
+ 879               		.stabn	68,0,348,.LM62-rprintf1RamRom
+ 880               	.LM62:
+ 881 032a 1095      		com r17
+ 882 032c 0195      		neg r16
+ 883 032e 1F4F      		sbci r17,lo8(-1)
+ 349:rprintf.c     **** 					rprintfChar('-');
+ 884               		.stabn	68,0,349,.LM63-rprintf1RamRom
+ 885               	.LM63:
+ 886 0330 8DE2      		ldi r24,lo8(45)
+ 887 0332 0E94 0000 		call rprintfChar
+ 888               	.L87:
+ 889 0336 40E1      		ldi r20,lo8(10000)
+ 890 0338 E42E      		mov r14,r20
+ 891 033a 47E2      		ldi r20,hi8(10000)
+ 892 033c F42E      		mov r15,r20
+ 893 033e 20E0      		ldi r18,lo8(0)
+ 894 0340 30E0      		ldi r19,hi8(0)
+ 895 0342 00C0      		rjmp .L88
+ 896               	.L89:
+ 350:rprintf.c     **** 				}
+ 351:rprintf.c     **** 				while (div_val > 1 && div_val > u_val) div_val /= 10;
+ 897               		.stabn	68,0,351,.LM64-rprintf1RamRom
+ 898               	.LM64:
+ 899 0344 C701      		movw r24,r14
+ 900 0346 6AE0      		ldi r22,lo8(10)
+ 901 0348 70E0      		ldi r23,hi8(10)
+ 902 034a 0E94 0000 		call __udivmodhi4
+ 903 034e 7B01      		movw r14,r22
+GAS LISTING /var/tmp//ccnENx6U.s 			page 23
+
+
+ 904 0350 2F5F      		subi r18,lo8(-(1))
+ 905 0352 3F4F      		sbci r19,hi8(-(1))
+ 906 0354 2430      		cpi r18,4
+ 907 0356 3105      		cpc r19,__zero_reg__
+ 908 0358 01F0      		breq .L90
+ 909               	.L88:
+ 910 035a 0E15      		cp r16,r14
+ 911 035c 1F05      		cpc r17,r15
+ 912 035e 00F0      		brlo .L89
+ 913               	.L90:
+ 914 0360 3AE0      		ldi r19,lo8(10)
+ 915 0362 A32E      		mov r10,r19
+ 916 0364 B12C      		mov r11,__zero_reg__
+ 917               	.L96:
+ 918               	.LBB8:
+ 352:rprintf.c     **** 			}
+ 353:rprintf.c     **** 			do
+ 354:rprintf.c     **** 			{
+ 355:rprintf.c     **** 				rprintfChar(pgm_read_byte(HexChars+(u_val/div_val)));
+ 919               		.stabn	68,0,355,.LM65-rprintf1RamRom
+ 920               	.LM65:
+ 921 0366 C801      		movw r24,r16
+ 922 0368 B701      		movw r22,r14
+ 923 036a 0E94 0000 		call __udivmodhi4
+ 924 036e FB01      		movw r30,r22
+ 925 0370 E050      		subi r30,lo8(-(HexChars))
+ 926 0372 F040      		sbci r31,hi8(-(HexChars))
+ 927               	/* #APP */
+ 928 0374 E491      		lpm r30, Z
+ 929               		
+ 930               	/* #NOAPP */
+ 931               	.LBE8:
+ 932 0376 8E2F      		mov r24,r30
+ 933 0378 0E94 0000 		call rprintfChar
+ 356:rprintf.c     **** 				u_val %= div_val;
+ 934               		.stabn	68,0,356,.LM66-rprintf1RamRom
+ 935               	.LM66:
+ 936 037c C801      		movw r24,r16
+ 937 037e B701      		movw r22,r14
+ 938 0380 0E94 0000 		call __udivmodhi4
+ 939 0384 8C01      		movw r16,r24
+ 357:rprintf.c     **** 				div_val /= base;
+ 940               		.stabn	68,0,357,.LM67-rprintf1RamRom
+ 941               	.LM67:
+ 942 0386 C701      		movw r24,r14
+ 943 0388 B501      		movw r22,r10
+ 944 038a 0E94 0000 		call __udivmodhi4
+ 945 038e 7B01      		movw r14,r22
+ 358:rprintf.c     **** 			} while (div_val);
+ 946               		.stabn	68,0,358,.LM68-rprintf1RamRom
+ 947               	.LM68:
+ 948 0390 672B      		or r22,r23
+ 949 0392 01F4      		brne .+2
+ 950 0394 00C0      		rjmp .L101
+ 951 0396 00C0      		rjmp .L96
+ 952               	.L83:
+ 953               		.stabn	68,0,343,.LM69-rprintf1RamRom
+GAS LISTING /var/tmp//ccnENx6U.s 			page 24
+
+
+ 954               	.LM69:
+ 955 0398 E981      		ldd r30,Y+1
+ 956 039a FA81      		ldd r31,Y+2
+ 957 039c 3296      		adiw r30,2
+ 958 039e FA83      		std Y+2,r31
+ 959 03a0 E983      		std Y+1,r30
+ 960 03a2 1291      		ld r17,-Z
+ 961 03a4 0291      		ld r16,-Z
+ 962               		.stabn	68,0,346,.LM70-rprintf1RamRom
+ 963               	.LM70:
+ 964 03a6 1123      		tst r17
+ 965 03a8 04F4      		brge .L87
+ 966 03aa 00C0      		rjmp .L86
+ 967               	.L92:
+ 359:rprintf.c     **** 		}
+ 360:rprintf.c     **** 	}
+ 361:rprintf.c     **** 	va_end(ap);
+ 362:rprintf.c     **** }
+ 968               		.stabn	68,0,362,.LM71-rprintf1RamRom
+ 969               	.LM71:
+ 970 03ac 80E0      		ldi r24,lo8(0)
+ 971 03ae 90E0      		ldi r25,hi8(0)
+ 972               	/* epilogue: frame size=2 */
+ 973 03b0 2296      		adiw r28,2
+ 974 03b2 0FB6      		in __tmp_reg__,__SREG__
+ 975 03b4 F894      		cli
+ 976 03b6 DEBF      		out __SP_H__,r29
+ 977 03b8 0FBE      		out __SREG__,__tmp_reg__
+ 978 03ba CDBF      		out __SP_L__,r28
+ 979 03bc DF91      		pop r29
+ 980 03be CF91      		pop r28
+ 981 03c0 1F91      		pop r17
+ 982 03c2 0F91      		pop r16
+ 983 03c4 FF90      		pop r15
+ 984 03c6 EF90      		pop r14
+ 985 03c8 DF90      		pop r13
+ 986 03ca CF90      		pop r12
+ 987 03cc BF90      		pop r11
+ 988 03ce AF90      		pop r10
+ 989 03d0 9F90      		pop r9
+ 990 03d2 0895      		ret
+ 991               	/* epilogue end (size=18) */
+ 992               	/* function rprintf1RamRom size 181 (144) */
+ 993               		.size	rprintf1RamRom, .-rprintf1RamRom
+ 994               		.stabs	"format_flag:r(0,2)",64,0,318,24
+ 995               		.stabs	"u_val:r(0,4)",64,0,319,16
+ 996               		.stabs	"div_val:r(0,4)",64,0,319,14
+ 997               		.stabs	"base:r(0,4)",64,0,319,10
+ 998               		.stabs	"ap:(5,3)",128,0,320,1
+ 999               		.stabs	"stringInRom:r(0,11)",64,0,313,9
+ 1000               		.stabs	"format:r(0,23)",64,0,313,12
+ 1001               		.stabn	192,0,0,rprintf1RamRom-rprintf1RamRom
+ 1002               		.stabs	"__addr16:r(3,4)",64,0,325,30
+ 1003               		.stabn	192,0,0,.LBB6-rprintf1RamRom
+ 1004               		.stabn	224,0,0,.LBE6-rprintf1RamRom
+ 1005               		.stabs	"__addr16:r(3,4)",64,0,335,30
+ 1006               		.stabn	192,0,0,.LBB7-rprintf1RamRom
+GAS LISTING /var/tmp//ccnENx6U.s 			page 25
+
+
+ 1007               		.stabn	224,0,0,.LBE7-rprintf1RamRom
+ 1008               		.stabs	"__result:r(3,2)",64,0,355,30
+ 1009               		.stabn	192,0,0,.LBB8-rprintf1RamRom
+ 1010               		.stabn	224,0,0,.LBE8-rprintf1RamRom
+ 1011               		.stabn	224,0,0,.Lscope11-rprintf1RamRom
+ 1012               	.Lscope11:
+ 1013               		.stabs	"",36,0,0,.Lscope11-rprintf1RamRom
+ 1014               		.stabd	78,0,0
+ 1015               		.section	.progmem.data,"a",@progbits
+ 1016               		.type	HexChars, @object
+ 1017               		.size	HexChars, 17
+ 1018               	HexChars:
+ 1019 0000 3031 3233 		.string	"0123456789ABCDEF"
+ 1019      3435 3637 
+ 1019      3839 4142 
+ 1019      4344 4546 
+ 1019      00
+ 1020               		.lcomm rputchar,2
+ 1021               		.stabs	"HexChars:S(0,25)=ar(0,22);0;16;(0,2)",38,0,45,HexChars
+ 1022               		.stabs	"rputchar:S(0,16)",40,0,48,rputchar
+ 1023               		.text
+ 1024               		.stabs	"",100,0,0,.Letext0
+ 1025               	.Letext0:
+ 1026               	/* File "rprintf.c": code  512 = 0x0200 ( 380), prologues  62, epilogues  70 */
+GAS LISTING /var/tmp//ccnENx6U.s 			page 26
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 rprintf.c
+/var/tmp//ccnENx6U.s:3      *ABS*:0000003f __SREG__
+/var/tmp//ccnENx6U.s:4      *ABS*:0000003e __SP_H__
+/var/tmp//ccnENx6U.s:5      *ABS*:0000003d __SP_L__
+/var/tmp//ccnENx6U.s:6      *ABS*:00000000 __tmp_reg__
+/var/tmp//ccnENx6U.s:7      *ABS*:00000001 __zero_reg__
+/var/tmp//ccnENx6U.s:111    .text:00000000 rprintfInit
+                             .bss:00000000 rputchar
+/var/tmp//ccnENx6U.s:133    .text:0000000a rprintfChar
+/var/tmp//ccnENx6U.s:156    .text:00000016 rprintfStr
+/var/tmp//ccnENx6U.s:198    .text:00000034 rprintfStrLen
+/var/tmp//ccnENx6U.s:279    .text:00000086 rprintfProgStr
+/var/tmp//ccnENx6U.s:328    .text:000000a6 rprintfCRLF
+/var/tmp//ccnENx6U.s:354    .text:000000b4 rprintfu04
+/var/tmp//ccnENx6U.s:1018   .progmem.data:00000000 HexChars
+/var/tmp//ccnENx6U.s:391    .text:000000ca rprintfu08
+/var/tmp//ccnENx6U.s:421    .text:000000e0 rprintfu16
+/var/tmp//ccnENx6U.s:453    .text:000000fa rprintfu32
+/var/tmp//ccnENx6U.s:495    .text:00000120 rprintfNum
+/var/tmp//ccnENx6U.s:755    .text:0000027e rprintf1RamRom
+
+UNDEFINED SYMBOLS
+__do_copy_data
+__do_clear_bss
+__udivmodsi4
+__udivmodhi4

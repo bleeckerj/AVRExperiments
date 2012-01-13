@@ -1,0 +1,885 @@
+   1               		.file	"softpwm_tnx5.c"
+   2               		.arch attiny45
+   3               	__SREG__ = 0x3f
+   4               	__SP_H__ = 0x3e
+   5               	__SP_L__ = 0x3d
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+   8               		.global __do_copy_data
+   9               		.global __do_clear_bss
+  12               		.text
+  13               	.Ltext0:
+  83               	.global	h_to_rgb
+  85               	h_to_rgb:
+  86               		.stabd	46,0,0
+   1:softpwm_tnx5.c **** /**
+   2:softpwm_tnx5.c ****  * Smart LED Prototype
+   3:softpwm_tnx5.c ****  *  2007, Tod E. Kurt, ThingM, tod@todbot.com
+   4:softpwm_tnx5.c ****  *
+   5:softpwm_tnx5.c ****  * Function:
+   6:softpwm_tnx5.c ****  *  - on startup, display hue blink?
+   7:softpwm_tnx5.c ****  *  - input #1 (PB3) is used to select hue
+   8:softpwm_tnx5.c ****  *  - input #2 (PB4) is used to select brightness
+   9:softpwm_tnx5.c ****  *  - holding an input low begins value selection
+  10:softpwm_tnx5.c ****  *  - releasing an input sets the value
+  11:softpwm_tnx5.c ****  *  - holding both buttons does something too
+  12:softpwm_tnx5.c ****  *
+  13:softpwm_tnx5.c ****  * Based on Atmel AVR AppNote 136 "Low-Jitter Multi-Channel Software PWM"
+  14:softpwm_tnx5.c ****  *                                  by  Andy Gayne 
+  15:softpwm_tnx5.c ****  */
+  16:softpwm_tnx5.c **** 
+  17:softpwm_tnx5.c **** // NOTE: Be sure to burn fuses to select internal oscillator!
+  18:softpwm_tnx5.c **** // 9.6MHz on default on internal oscillator
+  19:softpwm_tnx5.c **** #define F_CPU 8000000
+  20:softpwm_tnx5.c **** 
+  21:softpwm_tnx5.c **** #include <ctype.h>
+  22:softpwm_tnx5.c **** 
+  23:softpwm_tnx5.c **** #include <avr/io.h>
+  24:softpwm_tnx5.c **** #include <avr/interrupt.h>
+  25:softpwm_tnx5.c **** #include <avr/signal.h>
+  26:softpwm_tnx5.c **** #include <avr/wdt.h>
+  27:softpwm_tnx5.c **** 
+  28:softpwm_tnx5.c **** #include <avr/delay.h>
+  29:softpwm_tnx5.c **** #include <stdlib.h> 
+  30:softpwm_tnx5.c **** 
+  31:softpwm_tnx5.c **** // Pin mappings
+  32:softpwm_tnx5.c **** #define CHMAX       3    // maximum number of PWM channels
+  33:softpwm_tnx5.c **** 
+  34:softpwm_tnx5.c **** #define CH0_CLEAR (pinlevelB &= ~(1 << PB0)) // map CH0 to PB0
+  35:softpwm_tnx5.c **** #define CH1_CLEAR (pinlevelB &= ~(1 << PB1)) // map CH1 to PB1
+  36:softpwm_tnx5.c **** #define CH2_CLEAR (pinlevelB &= ~(1 << PB2)) // map CH2 to PB2
+  37:softpwm_tnx5.c **** 
+  38:softpwm_tnx5.c **** //#define CH0_SET   (pinlevelB |= (1 << PB0))  // map CH0 to PB0
+  39:softpwm_tnx5.c **** //#define CH1_SET   (pinlevelB |= (1 << PB1))  // map CH1 to PB1
+  40:softpwm_tnx5.c **** //#define CH2_SET   (pinlevelB |= (1 << PB2))  // map CH2 to PB2
+  41:softpwm_tnx5.c **** 
+  42:softpwm_tnx5.c **** // Set bits corresponding to pin usage above       this is to enable pullups
+  43:softpwm_tnx5.c **** //#define PORTB_MASK  (1<< PB0)|(1<< PB1)|(1<< PB2)  |(1<<PB3)|(1<<PB4)
+  44:softpwm_tnx5.c **** #define PORTB_MASK  (1<< PB0)|(1<< PB1)|(1<< PB2)
+  45:softpwm_tnx5.c **** // these are the outputs
+  46:softpwm_tnx5.c **** #define DDRB_MASK   (1<< PB0)|(1<< PB1)|(1<< PB2)
+  47:softpwm_tnx5.c **** #define INPUT_MASK  (1<< PB3)|(1<< PB4)
+  48:softpwm_tnx5.c **** 
+  49:softpwm_tnx5.c **** // select ADC2, PB4, pin 3
+  50:softpwm_tnx5.c **** #define ADC_CHAN 2
+  51:softpwm_tnx5.c **** 
+  52:softpwm_tnx5.c **** typedef uint8_t byte;
+  53:softpwm_tnx5.c **** 
+  54:softpwm_tnx5.c **** typedef struct _color { 
+  55:softpwm_tnx5.c ****     byte r; byte g; byte b;
+  56:softpwm_tnx5.c **** } color;
+  57:softpwm_tnx5.c **** 
+  58:softpwm_tnx5.c **** byte compare[CHMAX];
+  59:softpwm_tnx5.c **** volatile byte compbuff[CHMAX];
+  60:softpwm_tnx5.c **** 
+  61:softpwm_tnx5.c **** #define red compbuff[0]
+  62:softpwm_tnx5.c **** #define grn compbuff[1]
+  63:softpwm_tnx5.c **** #define blu compbuff[2]
+  64:softpwm_tnx5.c **** 
+  65:softpwm_tnx5.c **** byte hue;
+  66:softpwm_tnx5.c **** byte bright;
+  67:softpwm_tnx5.c **** byte state;
+  68:softpwm_tnx5.c **** int  keydown_counter;
+  69:softpwm_tnx5.c **** 
+  70:softpwm_tnx5.c **** #define STATE_START             0
+  71:softpwm_tnx5.c **** #define STATE_SETTING_HUE       1
+  72:softpwm_tnx5.c **** #define STATE_HUE_SET           2
+  73:softpwm_tnx5.c **** #define STATE_RESETTING_HUE     3
+  74:softpwm_tnx5.c **** #define STATE_SETTING_BRIGHT    4
+  75:softpwm_tnx5.c **** #define STATE_BRIGHT_SET        5
+  76:softpwm_tnx5.c **** #define STATE_END               6
+  77:softpwm_tnx5.c **** 
+  78:softpwm_tnx5.c **** #define DELAY 8
+  79:softpwm_tnx5.c **** 
+  80:softpwm_tnx5.c **** /*
+  81:softpwm_tnx5.c ****  * Given a variable hue 'h', that ranges from 0-252,
+  82:softpwm_tnx5.c ****  * set RGB color value appropriately.
+  83:softpwm_tnx5.c ****  * Assumes maximum Saturation & maximum Value (brightness)
+  84:softpwm_tnx5.c ****  * Performs purely integer math, no floating point.
+  85:softpwm_tnx5.c ****  */
+  86:softpwm_tnx5.c **** void h_to_rgb(byte h, color* c) 
+  87:softpwm_tnx5.c **** {
+  88               	.LM0:
+  89               	/* prologue: frame size=0 */
+  90               	/* prologue end (size=0) */
+  91 0000 282F      		mov r18,r24
+  92 0002 F72F      		mov r31,r23
+  93 0004 E62F      		mov r30,r22
+  88:softpwm_tnx5.c ****     byte hd = h / 42;   // 42 == 252/6,  252 == H_MAX
+  89:softpwm_tnx5.c ****     byte hi = hd % 6;   // gives 0-5
+  90:softpwm_tnx5.c ****     byte f = h % 42; 
+  91:softpwm_tnx5.c ****     byte fs = f * 6;
+  95               	.LM1:
+  96 0006 6AE2      		ldi r22,lo8(42)
+  97 0008 00D0      		rcall __udivmodqi4
+  98 000a 892F      		mov r24,r25
+  99 000c 9927      		clr r25
+ 100 000e 66E0      		ldi r22,lo8(6)
+ 101 0010 70E0      		ldi r23,hi8(6)
+ 102 0012 00D0      		rcall __mulhi3
+ 103 0014 482F      		mov r20,r24
+ 104 0016 592F      		mov r21,r25
+  92:softpwm_tnx5.c ****     switch( hi ) {
+ 106               	.LM2:
+ 107 0018 822F      		mov r24,r18
+ 108 001a 6AE2      		ldi r22,lo8(42)
+ 109 001c 00D0      		rcall __udivmodqi4
+ 110 001e 66E0      		ldi r22,lo8(6)
+ 111 0020 00D0      		rcall __udivmodqi4
+ 112 0022 9230      		cpi r25,lo8(2)
+ 113 0024 01F0      		breq .L5
+ 115               	.LM3:
+ 116 0026 9330      		cpi r25,lo8(3)
+ 117 0028 00F4      		brsh .L9
+ 118 002a 9923      		tst r25
+ 119 002c 01F0      		breq .L3
+ 120 002e 9130      		cpi r25,lo8(1)
+ 121 0030 01F4      		brne .L10
+ 122 0032 00C0      		rjmp .L4
+ 123               	.L9:
+ 124 0034 9430      		cpi r25,lo8(4)
+ 125 0036 01F0      		breq .L7
+ 126 0038 9430      		cpi r25,lo8(4)
+ 127 003a 00F0      		brlo .L6
+ 128 003c 9530      		cpi r25,lo8(5)
+ 129 003e 01F4      		brne .L10
+ 130 0040 00C0      		rjmp .L8
+ 131               	.L3:
+  93:softpwm_tnx5.c ****         case 0:
+  94:softpwm_tnx5.c ****             c->r = 252;     c->g = fs;      c->b = 0;
+ 133               	.LM4:
+ 134 0042 8CEF      		ldi r24,lo8(-4)
+ 135 0044 8083      		st Z,r24
+ 136 0046 4183      		std Z+1,r20
+ 137 0048 00C0      		rjmp .L11
+ 138               	.L4:
+  95:softpwm_tnx5.c ****            break;
+  96:softpwm_tnx5.c ****         case 1:
+  97:softpwm_tnx5.c ****             c->r = 252-fs;  c->g = 252;     c->b = 0;
+ 140               	.LM5:
+ 141 004a 9CEF      		ldi r25,lo8(-4)
+ 142 004c 892F      		mov r24,r25
+ 143 004e 841B      		sub r24,r20
+ 144 0050 8083      		st Z,r24
+ 145 0052 9183      		std Z+1,r25
+ 146               	.L11:
+ 147 0054 1282      		std Z+2,__zero_reg__
+ 148 0056 0895      		ret
+ 149               	.L5:
+  98:softpwm_tnx5.c ****             break;
+  99:softpwm_tnx5.c ****         case 2:
+ 100:softpwm_tnx5.c ****             c->r = 0;       c->g = 252;     c->b = fs;
+ 151               	.LM6:
+ 152 0058 1082      		st Z,__zero_reg__
+ 153 005a 8CEF      		ldi r24,lo8(-4)
+ 154 005c 8183      		std Z+1,r24
+ 155 005e 4283      		std Z+2,r20
+ 156 0060 0895      		ret
+ 157               	.L6:
+ 101:softpwm_tnx5.c ****             break;
+ 102:softpwm_tnx5.c ****         case 3:
+ 103:softpwm_tnx5.c ****             c->r = 0;       c->g = 252-fs;  c->b = 252;
+ 159               	.LM7:
+ 160 0062 1082      		st Z,__zero_reg__
+ 161 0064 9CEF      		ldi r25,lo8(-4)
+ 162 0066 892F      		mov r24,r25
+ 163 0068 841B      		sub r24,r20
+ 164 006a 8183      		std Z+1,r24
+ 165 006c 9283      		std Z+2,r25
+ 166 006e 0895      		ret
+ 167               	.L7:
+ 104:softpwm_tnx5.c ****             break;
+ 105:softpwm_tnx5.c ****         case 4:
+ 106:softpwm_tnx5.c ****             c->r = fs;      c->g = 0;       c->b = 252;
+ 169               	.LM8:
+ 170 0070 4083      		st Z,r20
+ 171 0072 1182      		std Z+1,__zero_reg__
+ 172 0074 8CEF      		ldi r24,lo8(-4)
+ 173 0076 8283      		std Z+2,r24
+ 174 0078 0895      		ret
+ 175               	.L8:
+ 107:softpwm_tnx5.c ****             break;
+ 108:softpwm_tnx5.c ****         case 5:
+ 109:softpwm_tnx5.c ****             c->r = 252;     c->g = 0;       c->b = 252-fs;
+ 177               	.LM9:
+ 178 007a 8CEF      		ldi r24,lo8(-4)
+ 179 007c 8083      		st Z,r24
+ 180 007e 1182      		std Z+1,__zero_reg__
+ 181 0080 841B      		sub r24,r20
+ 182 0082 8283      		std Z+2,r24
+ 183               	.L10:
+ 184 0084 0895      		ret
+ 185               	/* epilogue: frame size=0 */
+ 186               	/* epilogue: noreturn */
+ 187               	/* epilogue end (size=0) */
+ 188               	/* function h_to_rgb size 67 (67) */
+ 193               	.Lscope0:
+ 195               		.stabd	78,0,0
+ 198               	.global	hset
+ 200               	hset:
+ 201               		.stabd	46,0,0
+ 110:softpwm_tnx5.c ****             break;
+ 111:softpwm_tnx5.c ****     }
+ 112:softpwm_tnx5.c **** }
+ 113:softpwm_tnx5.c **** 
+ 114:softpwm_tnx5.c **** /* 
+ 115:softpwm_tnx5.c ****  * Given a hue 0-252, set the LEDs at maximum brightness for that hue
+ 116:softpwm_tnx5.c ****  */
+ 117:softpwm_tnx5.c **** void hset(byte h)
+ 118:softpwm_tnx5.c **** {
+ 203               	.LM10:
+ 204               	/* prologue: frame size=3 */
+ 205 0086 CF93      		push r28
+ 206 0088 DF93      		push r29
+ 207 008a CDB7      		in r28,__SP_L__
+ 208 008c DEB7      		in r29,__SP_H__
+ 209 008e 2397      		sbiw r28,3
+ 210 0090 0FB6      		in __tmp_reg__,__SREG__
+ 211 0092 F894      		cli
+ 212 0094 DEBF      		out __SP_H__,r29
+ 213 0096 0FBE      		out __SREG__,__tmp_reg__
+ 214 0098 CDBF      		out __SP_L__,r28
+ 215               	/* prologue end (size=10) */
+ 119:softpwm_tnx5.c ****     color c;
+ 120:softpwm_tnx5.c ****     h_to_rgb(h,&c);
+ 217               	.LM11:
+ 218 009a 6C2F      		mov r22,r28
+ 219 009c 7D2F      		mov r23,r29
+ 220 009e 6F5F      		subi r22,lo8(-(1))
+ 221 00a0 7F4F      		sbci r23,hi8(-(1))
+ 222 00a2 00D0      		rcall h_to_rgb
+ 121:softpwm_tnx5.c ****     red = c.r;
+ 224               	.LM12:
+ 225 00a4 8981      		ldd r24,Y+1
+ 226 00a6 8093 0000 		sts compbuff,r24
+ 122:softpwm_tnx5.c ****     grn = c.g; 
+ 228               	.LM13:
+ 229 00aa 8A81      		ldd r24,Y+2
+ 230 00ac 8093 0000 		sts compbuff+1,r24
+ 123:softpwm_tnx5.c ****     blu = c.b;
+ 232               	.LM14:
+ 233 00b0 8B81      		ldd r24,Y+3
+ 234 00b2 8093 0000 		sts compbuff+2,r24
+ 235               	/* epilogue: frame size=3 */
+ 236 00b6 2396      		adiw r28,3
+ 237 00b8 0FB6      		in __tmp_reg__,__SREG__
+ 238 00ba F894      		cli
+ 239 00bc DEBF      		out __SP_H__,r29
+ 240 00be 0FBE      		out __SREG__,__tmp_reg__
+ 241 00c0 CDBF      		out __SP_L__,r28
+ 242 00c2 DF91      		pop r29
+ 243 00c4 CF91      		pop r28
+ 244 00c6 0895      		ret
+ 245               	/* epilogue end (size=9) */
+ 246               	/* function hset size 33 (14) */
+ 251               	.Lscope1:
+ 253               		.stabd	78,0,0
+ 257               	.global	hvset
+ 259               	hvset:
+ 260               		.stabd	46,0,0
+ 124:softpwm_tnx5.c **** }
+ 125:softpwm_tnx5.c **** 
+ 126:softpwm_tnx5.c **** /* 
+ 127:softpwm_tnx5.c ****  * Given a hue 0-252 and a brightness 0-255, set LEDs appropriately
+ 128:softpwm_tnx5.c ****  */
+ 129:softpwm_tnx5.c **** void hvset(byte h, byte v) 
+ 130:softpwm_tnx5.c **** {
+ 262               	.LM15:
+ 263               	/* prologue: frame size=3 */
+ 264 00c8 0F93      		push r16
+ 265 00ca 1F93      		push r17
+ 266 00cc CF93      		push r28
+ 267 00ce DF93      		push r29
+ 268 00d0 CDB7      		in r28,__SP_L__
+ 269 00d2 DEB7      		in r29,__SP_H__
+ 270 00d4 2397      		sbiw r28,3
+ 271 00d6 0FB6      		in __tmp_reg__,__SREG__
+ 272 00d8 F894      		cli
+ 273 00da DEBF      		out __SP_H__,r29
+ 274 00dc 0FBE      		out __SREG__,__tmp_reg__
+ 275 00de CDBF      		out __SP_L__,r28
+ 276               	/* prologue end (size=12) */
+ 277 00e0 062F      		mov r16,r22
+ 131:softpwm_tnx5.c ****     color c;
+ 132:softpwm_tnx5.c ****     h_to_rgb(h,&c);
+ 279               	.LM16:
+ 280 00e2 6C2F      		mov r22,r28
+ 281 00e4 7D2F      		mov r23,r29
+ 282 00e6 6F5F      		subi r22,lo8(-(1))
+ 283 00e8 7F4F      		sbci r23,hi8(-(1))
+ 284 00ea 00D0      		rcall h_to_rgb
+ 133:softpwm_tnx5.c ****     red = ((c.r * v) / 255);
+ 286               	.LM17:
+ 287 00ec 1127      		clr r17
+ 288 00ee 8981      		ldd r24,Y+1
+ 289 00f0 9927      		clr r25
+ 290 00f2 712F      		mov r23,r17
+ 291 00f4 602F      		mov r22,r16
+ 292 00f6 00D0      		rcall __mulhi3
+ 293 00f8 6FEF      		ldi r22,lo8(255)
+ 294 00fa 70E0      		ldi r23,hi8(255)
+ 295 00fc 00D0      		rcall __divmodhi4
+ 296 00fe 6093 0000 		sts compbuff,r22
+ 134:softpwm_tnx5.c ****     grn = ((c.g * v) / 255);
+ 298               	.LM18:
+ 299 0102 8A81      		ldd r24,Y+2
+ 300 0104 9927      		clr r25
+ 301 0106 712F      		mov r23,r17
+ 302 0108 602F      		mov r22,r16
+ 303 010a 00D0      		rcall __mulhi3
+ 304 010c 6FEF      		ldi r22,lo8(255)
+ 305 010e 70E0      		ldi r23,hi8(255)
+ 306 0110 00D0      		rcall __divmodhi4
+ 307 0112 6093 0000 		sts compbuff+1,r22
+ 135:softpwm_tnx5.c ****     blu = ((c.b * v) / 255);
+ 309               	.LM19:
+ 310 0116 8B81      		ldd r24,Y+3
+ 311 0118 9927      		clr r25
+ 312 011a 712F      		mov r23,r17
+ 313 011c 602F      		mov r22,r16
+ 314 011e 00D0      		rcall __mulhi3
+ 315 0120 6FEF      		ldi r22,lo8(255)
+ 316 0122 70E0      		ldi r23,hi8(255)
+ 317 0124 00D0      		rcall __divmodhi4
+ 318 0126 6093 0000 		sts compbuff+2,r22
+ 319               	/* epilogue: frame size=3 */
+ 320 012a 2396      		adiw r28,3
+ 321 012c 0FB6      		in __tmp_reg__,__SREG__
+ 322 012e F894      		cli
+ 323 0130 DEBF      		out __SP_H__,r29
+ 324 0132 0FBE      		out __SREG__,__tmp_reg__
+ 325 0134 CDBF      		out __SP_L__,r28
+ 326 0136 DF91      		pop r29
+ 327 0138 CF91      		pop r28
+ 328 013a 1F91      		pop r17
+ 329 013c 0F91      		pop r16
+ 330 013e 0895      		ret
+ 331               	/* epilogue end (size=11) */
+ 332               	/* function hvset size 60 (37) */
+ 337               	.Lscope2:
+ 339               		.stabd	78,0,0
+ 341               	.global	init
+ 343               	init:
+ 344               		.stabd	46,0,0
+ 136:softpwm_tnx5.c **** }
+ 137:softpwm_tnx5.c **** 
+ 138:softpwm_tnx5.c **** /*
+ 139:softpwm_tnx5.c ****  *
+ 140:softpwm_tnx5.c ****  */
+ 141:softpwm_tnx5.c **** void init(void)
+ 142:softpwm_tnx5.c **** {
+ 346               	.LM20:
+ 347               	/* prologue: frame size=0 */
+ 348               	/* prologue end (size=0) */
+ 143:softpwm_tnx5.c ****   DDRB = DDRB_MASK;            // set port pins to  output (and input)
+ 350               	.LM21:
+ 351 0140 87E0      		ldi r24,lo8(7)
+ 352 0142 87BB      		out 55-0x20,r24
+ 144:softpwm_tnx5.c ****   
+ 145:softpwm_tnx5.c ****   TIFR  = (1 << TOV0);          // clear interrupt flag
+ 354               	.LM22:
+ 355 0144 82E0      		ldi r24,lo8(2)
+ 356 0146 88BF      		out 88-0x20,r24
+ 146:softpwm_tnx5.c ****   TIMSK = (1 << TOIE0);         // enable overflow interrupt
+ 358               	.LM23:
+ 359 0148 89BF      		out 89-0x20,r24
+ 147:softpwm_tnx5.c ****   TCCR0B = (1 << CS00);          // start timer, no prescale
+ 361               	.LM24:
+ 362 014a 81E0      		ldi r24,lo8(1)
+ 363 014c 83BF      		out 83-0x20,r24
+ 148:softpwm_tnx5.c ****   
+ 149:softpwm_tnx5.c ****   sei();                      // enable interrupts
+ 365               	.LM25:
+ 366               	/* #APP */
+ 367 014e 7894      		sei
+ 368               	/* #NOAPP */
+ 369               	/* epilogue: frame size=0 */
+ 370 0150 0895      		ret
+ 371               	/* epilogue end (size=1) */
+ 372               	/* function init size 10 (9) */
+ 374               	.Lscope3:
+ 376               		.stabd	78,0,0
+ 378               	.global	__vector_5
+ 380               	__vector_5:
+ 381               		.stabd	46,0,0
+ 150:softpwm_tnx5.c **** }
+ 151:softpwm_tnx5.c **** 
+ 152:softpwm_tnx5.c **** /*
+ 153:softpwm_tnx5.c ****  *
+ 154:softpwm_tnx5.c ****  */
+ 155:softpwm_tnx5.c **** int main(void)
+ 156:softpwm_tnx5.c **** {
+ 157:softpwm_tnx5.c ****     init();
+ 158:softpwm_tnx5.c **** 
+ 159:softpwm_tnx5.c ****     hue = 64;
+ 160:softpwm_tnx5.c ****     bright = 0;
+ 161:softpwm_tnx5.c ****     hvset(hue,bright);
+ 162:softpwm_tnx5.c ****     state = STATE_START;
+ 163:softpwm_tnx5.c **** 
+ 164:softpwm_tnx5.c ****     for(;;) {
+ 165:softpwm_tnx5.c **** 
+ 166:softpwm_tnx5.c ****         // little state machine: first detect button push,
+ 167:softpwm_tnx5.c ****         if( bit_is_clear(PINB,PB3) ) {  // PB3 is hue setting
+ 168:softpwm_tnx5.c ****             _delay_ms(DELAY);
+ 169:softpwm_tnx5.c ****             if( bit_is_clear(PINB,PB3) )
+ 170:softpwm_tnx5.c ****                 state = STATE_SETTING_HUE;
+ 171:softpwm_tnx5.c ****         }
+ 172:softpwm_tnx5.c ****         else {
+ 173:softpwm_tnx5.c ****             if( state == STATE_SETTING_HUE ) 
+ 174:softpwm_tnx5.c ****                 state = STATE_HUE_SET;
+ 175:softpwm_tnx5.c ****         }
+ 176:softpwm_tnx5.c ****         
+ 177:softpwm_tnx5.c ****         if( bit_is_clear(PINB,PB4) ) {  // PB4 is brightness setting
+ 178:softpwm_tnx5.c ****             _delay_ms(DELAY);
+ 179:softpwm_tnx5.c ****             if( bit_is_clear(PINB,PB4) )
+ 180:softpwm_tnx5.c ****                 state = STATE_SETTING_BRIGHT;
+ 181:softpwm_tnx5.c ****         }
+ 182:softpwm_tnx5.c ****         else {
+ 183:softpwm_tnx5.c ****             if( state == STATE_SETTING_BRIGHT ) 
+ 184:softpwm_tnx5.c ****                 state = STATE_BRIGHT_SET;
+ 185:softpwm_tnx5.c ****         }
+ 186:softpwm_tnx5.c **** 
+ 187:softpwm_tnx5.c ****         // handle actions within a state
+ 188:softpwm_tnx5.c ****         switch(state) { 
+ 189:softpwm_tnx5.c ****         case STATE_START:
+ 190:softpwm_tnx5.c ****             hue += 5;  // show off
+ 191:softpwm_tnx5.c ****             hset(hue);
+ 192:softpwm_tnx5.c ****             for(int i=0; i<20;i++) 
+ 193:softpwm_tnx5.c ****                 _delay_ms(DELAY);
+ 194:softpwm_tnx5.c ****             break;
+ 195:softpwm_tnx5.c ****         case STATE_SETTING_HUE:
+ 196:softpwm_tnx5.c ****             hue++;
+ 197:softpwm_tnx5.c ****             hvset(hue,bright);
+ 198:softpwm_tnx5.c ****             break;
+ 199:softpwm_tnx5.c ****         case STATE_SETTING_BRIGHT:
+ 200:softpwm_tnx5.c ****             bright-=4;
+ 201:softpwm_tnx5.c ****             hvset(hue,bright);
+ 202:softpwm_tnx5.c ****             break;
+ 203:softpwm_tnx5.c ****         }
+ 204:softpwm_tnx5.c **** 
+ 205:softpwm_tnx5.c ****         _delay_ms(DELAY);
+ 206:softpwm_tnx5.c ****     }
+ 207:softpwm_tnx5.c ****     
+ 208:softpwm_tnx5.c **** }
+ 209:softpwm_tnx5.c **** 
+ 210:softpwm_tnx5.c **** /*
+ 211:softpwm_tnx5.c ****  *
+ 212:softpwm_tnx5.c ****  */
+ 213:softpwm_tnx5.c **** SIGNAL (SIG_OVERFLOW0)
+ 214:softpwm_tnx5.c **** {
+ 383               	.LM26:
+ 384               	/* prologue: frame size=0 */
+ 385 0152 1F92      		push __zero_reg__
+ 386 0154 0F92      		push __tmp_reg__
+ 387 0156 0FB6      		in __tmp_reg__,__SREG__
+ 388 0158 0F92      		push __tmp_reg__
+ 389 015a 1124      		clr __zero_reg__
+ 390 015c 8F93      		push r24
+ 391 015e 9F93      		push r25
+ 392               	/* prologue end (size=7) */
+ 215:softpwm_tnx5.c ****     static byte pinlevelB = PORTB_MASK;
+ 216:softpwm_tnx5.c ****     static byte softcount = 0xFF;
+ 217:softpwm_tnx5.c ****    
+ 218:softpwm_tnx5.c ****     // common anode (+5V) means negative (~) logic
+ 219:softpwm_tnx5.c ****     //PORTB = ~pinlevelB;            // update outputs
+ 220:softpwm_tnx5.c **** 
+ 221:softpwm_tnx5.c ****     // common cathode (GND) means positive logic
+ 222:softpwm_tnx5.c ****     PORTB = pinlevelB;            // update outputs
+ 394               	.LM27:
+ 395 0160 8091 0000 		lds r24,pinlevelB.1560
+ 396 0164 88BB      		out 56-0x20,r24
+ 223:softpwm_tnx5.c **** 
+ 224:softpwm_tnx5.c ****     if(++softcount == 0) {         // increment modulo 256 counter and update
+ 398               	.LM28:
+ 399 0166 9091 0000 		lds r25,softcount.1561
+ 400 016a 9F5F      		subi r25,lo8(-(1))
+ 401 016c 9093 0000 		sts softcount.1561,r25
+ 402 0170 9923      		tst r25
+ 403 0172 01F4      		brne .L19
+ 225:softpwm_tnx5.c ****         // the compare values only when counter = 0.
+ 226:softpwm_tnx5.c ****         compare[0] = compbuff[0];   // verbose code for speed
+ 405               	.LM29:
+ 406 0174 8091 0000 		lds r24,compbuff
+ 407 0178 8093 0000 		sts compare,r24
+ 227:softpwm_tnx5.c ****         compare[1] = compbuff[1];
+ 409               	.LM30:
+ 410 017c 8091 0000 		lds r24,compbuff+1
+ 411 0180 8093 0000 		sts compare+1,r24
+ 228:softpwm_tnx5.c ****         compare[2] = compbuff[2];
+ 413               	.LM31:
+ 414 0184 8091 0000 		lds r24,compbuff+2
+ 415 0188 8093 0000 		sts compare+2,r24
+ 229:softpwm_tnx5.c ****         
+ 230:softpwm_tnx5.c **** 	pinlevelB = PORTB_MASK;     // set all port pins high
+ 417               	.LM32:
+ 418 018c 87E0      		ldi r24,lo8(7)
+ 419 018e 8093 0000 		sts pinlevelB.1560,r24
+ 420               	.L19:
+ 231:softpwm_tnx5.c ****     }
+ 232:softpwm_tnx5.c ****     // clear port pin on compare match (executed on next interrupt)
+ 233:softpwm_tnx5.c ****     if(compare[0] == softcount) CH0_CLEAR;
+ 422               	.LM33:
+ 423 0192 8091 0000 		lds r24,compare
+ 424 0196 8917      		cp r24,r25
+ 425 0198 01F4      		brne .L21
+ 426 019a 8091 0000 		lds r24,pinlevelB.1560
+ 427 019e 8E7F      		andi r24,lo8(-2)
+ 428 01a0 8093 0000 		sts pinlevelB.1560,r24
+ 429               	.L21:
+ 234:softpwm_tnx5.c ****     if(compare[1] == softcount) CH1_CLEAR;
+ 431               	.LM34:
+ 432 01a4 8091 0000 		lds r24,compare+1
+ 433 01a8 8917      		cp r24,r25
+ 434 01aa 01F4      		brne .L23
+ 435 01ac 8091 0000 		lds r24,pinlevelB.1560
+ 436 01b0 8D7F      		andi r24,lo8(-3)
+ 437 01b2 8093 0000 		sts pinlevelB.1560,r24
+ 438               	.L23:
+ 235:softpwm_tnx5.c ****     if(compare[2] == softcount) CH2_CLEAR;
+ 440               	.LM35:
+ 441 01b6 8091 0000 		lds r24,compare+2
+ 442 01ba 8917      		cp r24,r25
+ 443 01bc 01F4      		brne .L27
+ 444 01be 8091 0000 		lds r24,pinlevelB.1560
+ 445 01c2 8B7F      		andi r24,lo8(-5)
+ 446 01c4 8093 0000 		sts pinlevelB.1560,r24
+ 447               	.L27:
+ 448               	/* epilogue: frame size=0 */
+ 449 01c8 9F91      		pop r25
+ 450 01ca 8F91      		pop r24
+ 451 01cc 0F90      		pop __tmp_reg__
+ 452 01ce 0FBE      		out __SREG__,__tmp_reg__
+ 453 01d0 0F90      		pop __tmp_reg__
+ 454 01d2 1F90      		pop __zero_reg__
+ 455 01d4 1895      		reti
+ 456               	/* epilogue end (size=7) */
+ 457               	/* function __vector_5 size 66 (52) */
+ 463               	.Lscope4:
+ 465               		.stabd	78,0,0
+ 467               	.global	main
+ 469               	main:
+ 470               		.stabd	46,0,0
+ 472               	.LM36:
+ 473               	/* prologue: frame size=0 */
+ 474               	/* prologue end (size=0) */
+ 476               	.LM37:
+ 477 01d6 00D0      		rcall init
+ 479               	.LM38:
+ 480 01d8 80E4      		ldi r24,lo8(64)
+ 481 01da 8093 0000 		sts hue,r24
+ 483               	.LM39:
+ 484 01de 1092 0000 		sts bright,__zero_reg__
+ 486               	.LM40:
+ 487 01e2 60E0      		ldi r22,lo8(0)
+ 488 01e4 00D0      		rcall hvset
+ 490               	.LM41:
+ 491 01e6 1092 0000 		sts state,__zero_reg__
+ 492               	.L29:
+ 494               	.LM42:
+ 495 01ea B399      		sbic 54-0x20,3
+ 496 01ec 00C0      		rjmp .L30
+ 497               	.LBB21:
+ 498               	.LBB22:
+ 499               	.LBB23:
+ 500               	.LBB24:
+ 502               	.Ltext1:
+   1:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h **** /* Copyright (c) 2002, Marek Michalkiewicz
+   2:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h ****    Copyright (c) 2007 Joerg Wunsch
+   3:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h ****    All rights reserved.
+   4:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h **** 
+   5:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h ****    Redistribution and use in source and binary forms, with or without
+   6:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h ****    modification, are permitted provided that the following conditions are met:
+   7:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h **** 
+   8:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h ****    * Redistributions of source code must retain the above copyright
+   9:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h ****      notice, this list of conditions and the following disclaimer.
+  10:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h **** 
+  11:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h ****    * Redistributions in binary form must reproduce the above copyright
+  12:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h ****      notice, this list of conditions and the following disclaimer in
+  13:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h ****      the documentation and/or other materials provided with the
+  14:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h ****      distribution.
+  15:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h **** 
+  16:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h ****    * Neither the name of the copyright holders nor the names of
+  17:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h ****      contributors may be used to endorse or promote products derived
+  18:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h ****      from this software without specific prior written permission.
+  19:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h **** 
+  20:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h ****   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+  21:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h ****   AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+  22:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h ****   IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+  23:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h ****   ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+  24:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h ****   LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+  25:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h ****   CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+  26:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h ****   SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+  27:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h ****   INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+  28:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h ****   CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+  29:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h ****   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+  30:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h ****   POSSIBILITY OF SUCH DAMAGE. */
+  31:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h **** 
+  32:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h **** /* $Id: delay_basic.h,v 1.1.2.2 2007/05/13 21:26:06 joerg_wunsch Exp $ */
+  33:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h **** 
+  34:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h **** #ifndef _UTIL_DELAY_BASIC_H_
+  35:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h **** #define _UTIL_DELAY_BASIC_H_ 1
+  36:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h **** 
+  37:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h **** #include <inttypes.h>
+  38:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h **** 
+  39:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h **** /** \file */
+  40:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h **** /** \defgroup util_delay_basic <util/delay_basic.h>: Basic busy-wait delay loops
+  41:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h ****     \code
+  42:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h ****     #include <util/delay_basic.h>
+  43:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h ****     \endcode
+  44:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h **** 
+  45:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h ****     The functions in this header file implement simple delay loops
+  46:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h ****     that perform a busy-waiting.  They are typically used to
+  47:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h ****     facilitate short delays in the program execution.  They are
+  48:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h ****     implemented as count-down loops with a well-known CPU cycle
+  49:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h ****     count per loop iteration.  As such, no other processing can
+  50:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h ****     occur simultaneously.  It should be kept in mind that the
+  51:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h ****     functions described here do not disable interrupts.
+  52:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h **** 
+  53:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h ****     In general, for long delays, the use of hardware timers is
+  54:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h ****     much preferrable, as they free the CPU, and allow for
+  55:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h ****     concurrent processing of other events while the timer is
+  56:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h ****     running.  However, in particular for very short delays, the
+  57:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h ****     overhead of setting up a hardware timer is too much compared
+  58:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h ****     to the overall delay time.
+  59:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h **** 
+  60:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h ****     Two inline functions are provided for the actual delay algorithms.
+  61:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h **** 
+  62:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h **** */
+  63:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h **** 
+  64:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h **** #if !defined(__DOXYGEN__)
+  65:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h **** static inline void _delay_loop_1(uint8_t __count) __attribute__((always_inline));
+  66:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h **** static inline void _delay_loop_2(uint16_t __count) __attribute__((always_inline));
+  67:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h **** #endif
+  68:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h **** 
+  69:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h **** /** \ingroup util_delay_basic
+  70:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h **** 
+  71:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h ****     Delay loop using an 8-bit counter \c __count, so up to 256
+  72:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h ****     iterations are possible.  (The value 256 would have to be passed
+  73:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h ****     as 0.)  The loop executes three CPU cycles per iteration, not
+  74:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h ****     including the overhead the compiler needs to setup the counter
+  75:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h ****     register.
+  76:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h **** 
+  77:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h ****     Thus, at a CPU speed of 1 MHz, delays of up to 768 microseconds
+  78:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h ****     can be achieved.
+  79:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h **** */
+  80:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h **** void
+  81:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h **** _delay_loop_1(uint8_t __count)
+  82:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h **** {
+  83:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h **** 	__asm__ volatile (
+  84:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h **** 		"1: dec %0" "\n\t"
+  85:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h **** 		"brne 1b"
+  86:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h **** 		: "=r" (__count)
+  87:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h **** 		: "0" (__count)
+  88:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h **** 	);
+  89:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h **** }
+  90:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h **** 
+  91:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h **** /** \ingroup util_delay_basic
+  92:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h **** 
+  93:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h ****     Delay loop using a 16-bit counter \c __count, so up to 65536
+  94:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h ****     iterations are possible.  (The value 65536 would have to be
+  95:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h ****     passed as 0.)  The loop executes four CPU cycles per iteration,
+  96:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h ****     not including the overhead the compiler requires to setup the
+  97:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h ****     counter register pair.
+  98:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h **** 
+  99:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h ****     Thus, at a CPU speed of 1 MHz, delays of up to about 262.1
+ 100:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h ****     milliseconds can be achieved.
+ 101:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h ****  */
+ 102:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h **** void
+ 103:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h **** _delay_loop_2(uint16_t __count)
+ 104:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h **** {
+ 105:/usr/local/bin/../lib/gcc/avr/4.1.1/../../../../avr/include/util/delay_basic.h **** 	__asm__ volatile (
+ 504               	.LM43:
+ 505 01ee 80E8      		ldi r24,lo8(16000)
+ 506 01f0 9EE3      		ldi r25,hi8(16000)
+ 507               	/* #APP */
+ 508 01f2 0197      		1: sbiw r24,1
+ 509 01f4 01F4      		brne 1b
+ 510               	/* #NOAPP */
+ 511               	.LBE24:
+ 512               	.LBE23:
+ 513               	.LBE22:
+ 514               	.LBE21:
+ 516               	.Ltext2:
+ 518               	.LM44:
+ 519 01f6 B399      		sbic 54-0x20,3
+ 520 01f8 00C0      		rjmp .L32
+ 522               	.LM45:
+ 523 01fa 81E0      		ldi r24,lo8(1)
+ 524 01fc 00C0      		rjmp .L47
+ 525               	.L30:
+ 527               	.LM46:
+ 528 01fe 8091 0000 		lds r24,state
+ 529 0202 8130      		cpi r24,lo8(1)
+ 530 0204 01F4      		brne .L32
+ 532               	.LM47:
+ 533 0206 82E0      		ldi r24,lo8(2)
+ 534               	.L47:
+ 535 0208 8093 0000 		sts state,r24
+ 536               	.L32:
+ 538               	.LM48:
+ 539 020c B499      		sbic 54-0x20,4
+ 540 020e 00C0      		rjmp .L35
+ 541               	.LBB25:
+ 542               	.LBB26:
+ 543               	.LBB27:
+ 544               	.LBB28:
+ 546               	.Ltext3:
+ 548               	.LM49:
+ 549 0210 80E8      		ldi r24,lo8(16000)
+ 550 0212 9EE3      		ldi r25,hi8(16000)
+ 551               	/* #APP */
+ 552 0214 0197      		1: sbiw r24,1
+ 553 0216 01F4      		brne 1b
+ 554               	/* #NOAPP */
+ 555               	.LBE28:
+ 556               	.LBE27:
+ 557               	.LBE26:
+ 558               	.LBE25:
+ 560               	.Ltext4:
+ 562               	.LM50:
+ 563 0218 B499      		sbic 54-0x20,4
+ 564 021a 00C0      		rjmp .L37
+ 566               	.LM51:
+ 567 021c 84E0      		ldi r24,lo8(4)
+ 568 021e 8093 0000 		sts state,r24
+ 569 0222 00C0      		rjmp .L39
+ 570               	.L35:
+ 572               	.LM52:
+ 573 0224 8091 0000 		lds r24,state
+ 574 0228 8430      		cpi r24,lo8(4)
+ 575 022a 01F4      		brne .L37
+ 577               	.LM53:
+ 578 022c 85E0      		ldi r24,lo8(5)
+ 579 022e 8093 0000 		sts state,r24
+ 580 0232 00C0      		rjmp .L41
+ 581               	.L37:
+ 583               	.LM54:
+ 584 0234 8091 0000 		lds r24,state
+ 585 0238 8130      		cpi r24,lo8(1)
+ 586 023a 01F0      		breq .L43
+ 587 023c 8130      		cpi r24,lo8(1)
+ 588 023e 00F0      		brlo .L42
+ 589 0240 8430      		cpi r24,lo8(4)
+ 590 0242 01F4      		brne .L41
+ 591 0244 00C0      		rjmp .L39
+ 592               	.L42:
+ 594               	.LM55:
+ 595 0246 8091 0000 		lds r24,hue
+ 596 024a 8B5F      		subi r24,lo8(-(5))
+ 597 024c 8093 0000 		sts hue,r24
+ 599               	.LM56:
+ 600 0250 00D0      		rcall hset
+ 601 0252 20E0      		ldi r18,lo8(0)
+ 602 0254 30E0      		ldi r19,hi8(0)
+ 603 0256 E0E8      		ldi r30,lo8(16000)
+ 604 0258 FEE3      		ldi r31,hi8(16000)
+ 605               	.L44:
+ 606               	.LBB29:
+ 607               	.LBB30:
+ 608               	.LBB31:
+ 609               	.LBB32:
+ 610               	.LBB33:
+ 612               	.Ltext5:
+ 614               	.LM57:
+ 615 025a 8E2F      		mov r24,r30
+ 616 025c 9F2F      		mov r25,r31
+ 617               	/* #APP */
+ 618 025e 0197      		1: sbiw r24,1
+ 619 0260 01F4      		brne 1b
+ 620               	/* #NOAPP */
+ 621               	.LBE33:
+ 622               	.LBE32:
+ 623               	.LBE31:
+ 624               	.LBE30:
+ 626               	.Ltext6:
+ 628               	.LM58:
+ 629 0262 2F5F      		subi r18,lo8(-(1))
+ 630 0264 3F4F      		sbci r19,hi8(-(1))
+ 631 0266 2431      		cpi r18,20
+ 632 0268 3105      		cpc r19,__zero_reg__
+ 633 026a 01F0      		breq .L41
+ 634 026c 00C0      		rjmp .L44
+ 635               	.L43:
+ 636               	.LBE29:
+ 638               	.LM59:
+ 639 026e 8091 0000 		lds r24,hue
+ 640 0272 8F5F      		subi r24,lo8(-(1))
+ 641 0274 8093 0000 		sts hue,r24
+ 643               	.LM60:
+ 644 0278 6091 0000 		lds r22,bright
+ 645 027c 00C0      		rjmp .L48
+ 646               	.L39:
+ 648               	.LM61:
+ 649 027e 6091 0000 		lds r22,bright
+ 650 0282 6450      		subi r22,lo8(-(-4))
+ 651 0284 6093 0000 		sts bright,r22
+ 653               	.LM62:
+ 654 0288 8091 0000 		lds r24,hue
+ 655               	.L48:
+ 656 028c 00D0      		rcall hvset
+ 657               	.L41:
+ 658               	.LBB34:
+ 659               	.LBB35:
+ 660               	.LBB36:
+ 661               	.LBB37:
+ 663               	.Ltext7:
+ 665               	.LM63:
+ 666 028e 80E8      		ldi r24,lo8(16000)
+ 667 0290 9EE3      		ldi r25,hi8(16000)
+ 668               	/* #APP */
+ 669 0292 0197      		1: sbiw r24,1
+ 670 0294 01F4      		brne 1b
+ 671               	/* #NOAPP */
+ 672 0296 00C0      		rjmp .L29
+ 673               	.LBE37:
+ 674               	.LBE36:
+ 675               	.LBE35:
+ 676               	.LBE34:
+ 677               	/* epilogue: frame size=0 */
+ 678               	/* epilogue: noreturn */
+ 679               	/* epilogue end (size=0) */
+ 680               	/* function main size 105 (105) */
+ 697               	.Lscope5:
+ 699               		.stabd	78,0,0
+ 700               		.data
+ 703               	softcount.1561:
+ 704 0000 FF        		.byte	-1
+ 708               	pinlevelB.1560:
+ 709 0001 07        		.byte	7
+ 711               		.comm compare,3,1
+ 712               		.comm compbuff,3,1
+ 713               		.comm hue,1,1
+ 714               		.comm bright,1,1
+ 715               		.comm state,1,1
+ 716               		.comm keydown_counter,2,1
+ 723               		.text
+ 725               	.Letext0:
+ 726               	/* File "softpwm_tnx5.c": code  341 = 0x0155 ( 284), prologues  29, epilogues  28 */
+DEFINED SYMBOLS
+                            *ABS*:00000000 softpwm_tnx5.c
+/var/tmp//cceCSuZo.s:3      *ABS*:0000003f __SREG__
+/var/tmp//cceCSuZo.s:4      *ABS*:0000003e __SP_H__
+/var/tmp//cceCSuZo.s:5      *ABS*:0000003d __SP_L__
+/var/tmp//cceCSuZo.s:6      *ABS*:00000000 __tmp_reg__
+/var/tmp//cceCSuZo.s:7      *ABS*:00000001 __zero_reg__
+/var/tmp//cceCSuZo.s:85     .text:00000000 h_to_rgb
+/var/tmp//cceCSuZo.s:200    .text:00000086 hset
+                            *COM*:00000003 compbuff
+/var/tmp//cceCSuZo.s:259    .text:000000c8 hvset
+/var/tmp//cceCSuZo.s:343    .text:00000140 init
+/var/tmp//cceCSuZo.s:380    .text:00000152 __vector_5
+/var/tmp//cceCSuZo.s:708    .data:00000001 pinlevelB.1560
+/var/tmp//cceCSuZo.s:703    .data:00000000 softcount.1561
+                            *COM*:00000003 compare
+/var/tmp//cceCSuZo.s:469    .text:000001d6 main
+                            *COM*:00000001 hue
+                            *COM*:00000001 bright
+                            *COM*:00000001 state
+                            *COM*:00000002 keydown_counter
+
+UNDEFINED SYMBOLS
+__do_copy_data
+__do_clear_bss
+__udivmodqi4
+__mulhi3
+__divmodhi4

@@ -1,0 +1,27 @@
+/Makefile/1.1.1.1/Tue Aug 21 05:14:15 2007//
+/avrlibdefs.h/1.1.1.1/Tue Aug 21 05:14:11 2007//
+/avrlibtypes.h/1.1.1.1/Tue Aug 21 05:14:11 2007//
+/buffer.c/1.1.1.1/Tue Aug 21 05:14:11 2007//
+/buffer.h/1.1.1.1/Tue Aug 21 05:14:11 2007//
+/cmdline.c/1.1.1.1/Tue Aug 21 05:14:11 2007//
+/cmdline.h/1.1.1.1/Tue Aug 21 05:14:11 2007//
+/cmdlineconf.h/1.1.1.1/Tue Aug 21 05:14:11 2007//
+/ds32c35_test_c.aps/1.1.1.1/Tue Aug 21 05:14:11 2007//
+/ds32c35_test_c.aws/1.1.1.1/Tue Aug 21 05:14:12 2007//
+/ds32c35_test_c.elf/1.1.1.1/Tue Aug 21 05:14:13 2007//
+/ds32c35_test_c.hex/1.1.1.1/Tue Aug 21 05:14:13 2007//
+/i2cmaster.S/1.1.1.1/Tue Aug 21 05:14:15 2007//
+/i2cmaster.h/1.1.1.1/Tue Aug 21 05:14:13 2007//
+/i2cmaster.lst/1.1.1.1/Tue Aug 21 05:14:15 2007//
+/rprintf.c/1.1.1.1/Tue Aug 21 05:14:15 2007//
+/rprintf.h/1.1.1.1/Tue Aug 21 05:14:15 2007//
+/test_i2cmaster.c/1.1.1.1/Tue Aug 21 05:14:16 2007//
+/twimaster.c/1.1.1.1/Tue Aug 21 05:14:16 2007//
+/uart2.c/1.1.1.1/Tue Aug 21 05:14:16 2007//
+/uart2.h/1.1.1.1/Tue Aug 21 05:14:16 2007//
+/vt100.c/1.1.1.1/Tue Aug 21 05:14:16 2007//
+/vt100.h/1.1.1.1/Tue Aug 21 05:14:16 2007//
+D/default////
+D/dep////
+/ds32c35_test_c.c/1.2/Sat Sep  1 17:50:50 2007//
+/global.h/1.2/Sat Sep  1 18:45:07 2007//
